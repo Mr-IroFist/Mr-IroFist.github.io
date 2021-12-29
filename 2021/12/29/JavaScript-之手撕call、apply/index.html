@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <!-- 元数据 -->
+  <meta charset="utf-8">
+  <link rel="icon" href="">
+  <title>JavaScript 之手撕call、apply | 西瓜和栗子的 Blog</title>
+  <meta name="author" content="西瓜" />
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="robots" content="index,follow" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <meta name="format-detection" content="telphone=no, email=no" />
+  
+    <meta name="keywords" content="call、apply" />
+  
+  <meta name="description" content="前言call&#x2F;apply 的核心理念就是借用方法。call&#x2F;apply 做的是这样的事，**A** 对象上实现了一个方法， B 对象由于一些需求，也需要调用同样的方法，最好的方法肯定是 B 直接去调用 A 对象的方法，自身无需扩展。 基本介绍语法：12fn.call(thisArg,arg1,arg2,...);fn.apply(thisArg,[arg1,arg2,...]);  参数 this">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript 之手撕call、apply">
+<meta property="og:url" content="http://example.com/2021/12/29/JavaScript-%E4%B9%8B%E6%89%8B%E6%92%95call%E3%80%81apply/index.html">
+<meta property="og:site_name" content="西瓜和栗子的 Blog">
+<meta property="og:description" content="前言call&#x2F;apply 的核心理念就是借用方法。call&#x2F;apply 做的是这样的事，**A** 对象上实现了一个方法， B 对象由于一些需求，也需要调用同样的方法，最好的方法肯定是 B 直接去调用 A 对象的方法，自身无需扩展。 基本介绍语法：12fn.call(thisArg,arg1,arg2,...);fn.apply(thisArg,[arg1,arg2,...]);  参数 this">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/null">
+<meta property="article:published_time" content="2021-12-29T06:04:47.000Z">
+<meta property="article:modified_time" content="2021-12-29T07:10:26.625Z">
+<meta property="article:author" content="西瓜">
+<meta property="article:tag" content="call、apply">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/null">
+<meta name="twitter:site" content="@null">
+  
+  <!-- 站点验证相关 -->
+  
+    
+    
+    
+  
+  <!-- 样式表文件 -->
+  <link rel="stylesheet" id="kratos-css" href="/css/kratosr.min.css" type="text/css" media="all">
+  
+    <link rel="stylesheet" id="highlight-css" href="/css/highlight/night-eighties.min.css" type="text/css" media="all">
+  
+  
+  <link rel="stylesheet" id="fontawe-css" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" type="text/css" media="all">
+  <link rel="stylesheet" id="nprogress-css" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" type="text/css" media="all">
+  
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
+  
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+  
+  
+    <link rel="stylesheet" id="darkmode-css" href="/css/kr-dark.min.css" type="text/css" media="all">
+  
+  <!-- 不得不预先加载的一些JS文件 -->
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  
+  
+  <style>
+    
+      .kratos-cover.kratos-cover-2 {
+        background-image: url('/images/banner.jpg');
+      }
+    
+    
+      @media(min-width:768px) {
+        body.custom-background {
+          background-image: url('/images/bg.jpg');
+        }
+      }
+    
+  </style>
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+    <body class="custom-background">
+        <div id="kratos-wrapper">
+    <div id="kratos-page">
+        <div id="kratos-header">
+            <header id="kratos-desktop-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="nav-header">
+                        <nav id="kratos-menu-wrap">
+                            <ul id="kratos-primary-menu" class="sf-menu">
+                                
+                                    
+                                        <li><a href="/"><i class="fa fa-home"></i>首页</a></li>
+                                    
+                                
+                                    
+                                        <li><a href="/archives/"><i class="fa fa-file"></i>档案馆</a></li>
+                                    
+                                
+                                    
+                                        <li><a href="/friends/"></a></li>
+                                    
+                                
+                                    
+                                        <li>
+                                            <a></a>
+                                            <ul class="sub-menu">
+                                                
+                                                    
+                                                
+                                                    
+                                                        <li><a target="_blank" rel="noopener" href="https://candinya.com"></a></li>
+                                                    
+                                                
+                                                    
+                                                        <li><a target="_blank" rel="noopener" href="https://github.com/Candinya/Kratos-Rebirth"></a></li>
+                                                    
+                                                
+                                            </ul>
+                                        </li>
+                                    
+                                
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </header>
+            <header id="kratos-mobile-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="color-logo"><a href="/">西瓜和栗子的 Blog</a></div>
+                    <div class="nav-toggle">
+                        <a class="kratos-nav-toggle js-kratos-nav-toggle">
+                            <i></i>
+                        </a>
+                    </div>
+                </div>
+            </header>
+        </div>
+        <div class="kratos-start kratos-hero-2">
+            <!-- <div class="kratos-overlay"></div> -->
+            <div class="kratos-cover kratos-cover-2 text-center">
+                <div class="desc desc2 animate-box">
+                    <a href="/">
+                        <h2>西瓜和栗子的 Blog</h2> <br />
+                        <span></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div id="kratos-blog-post">
+            <div class="container">
+                <div id="main" class="row">
+                    
+
+        
+
+            <section class="col-md-8">
+
+        
+
+            <article>
+    <div class="kratos-hentry kratos-post-inner clearfix">
+        <header class="kratos-entry-header">
+            
+                <h1 class="kratos-entry-title text-center">JavaScript 之手撕call、apply</h1>
+            
+            
+            <ul class="kratos-post-meta text-center">
+                <li><i class="fa fa-calendar"></i> 2021-12-29</li>
+                <li><i class="fa fa-user"></i> 作者 西瓜</li>
+                <li>
+                    <i class="fa fa-edit"></i> 
+                    
+                    
+                        ~3.78K
+                    
+                    字
+                </li>
+                
+            </ul>
+        </header>
+        <div class="kratos-post-content">
+            <div id="expire-alert" class="alert alert-warning hidden" role="alert">
+                本文最后编辑于 <time datetime="1640761826625"></time> 前，其中的内容可能需要更新。
+            </div>
+            
+            <hr />
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><strong>前言</strong></h2><p><strong><font color="#ff502c">call/apply</font></strong> 的核心理念就是借用方法。<br><strong><font color="#ff502c">call/apply</font></strong> 做的是这样的事，**<font color="#ff502c">A</font>** 对象上实现了一个方法， <strong><font color="#ff502c">B</font></strong> 对象由于一些需求，也需要调用同样的方法，最好的方法肯定是 <strong><font color="#ff502c">B</font></strong> 直接去调用 <strong><font color="#ff502c">A</font></strong> 对象的方法，自身无需扩展。</p>
+<h2 id="基本介绍"><a href="#基本介绍" class="headerlink" title="基本介绍"></a><strong>基本介绍</strong></h2><h3 id="语法："><a href="#语法：" class="headerlink" title="语法："></a><strong>语法：</strong></h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fn.call(thisArg,arg1,arg2,...);</span><br><span class="line">fn.apply(thisArg,[arg1,arg2,...]);</span><br></pre></td></tr></table></figure>
+
+<h3 id="参数"><a href="#参数" class="headerlink" title="参数"></a><strong>参数</strong></h3><ul>
+<li><strong><font color="#ff502c">thisArg</font></strong>(可选)：<ul>
+<li><strong><font color="#ff502c">fn</font></strong> 函数的 <strong><font color="#ff502c">this</font></strong> 指向 <strong><font color="#ff502c">thisArg</font></strong></li>
+<li><strong><font color="#ff502c">thisArg</font></strong> 传入 <strong><font color="#ff502c">null, undefined</font></strong> ；非严格模式下：**<font color="#ff502c">fn</font>** 函数 <strong><font color="#ff502c">this -&gt; window</font></strong> ；严格模式下：**<font color="#ff502c">this -&gt; undefined</font>**</li>
+<li>值为原始值(数字，字符串，布尔值)时，**<font color="#ff502c">this</font>** 指向包装类</li>
+</ul>
+</li>
+<li><strong><font color="#ff502c">arg1,arg2</font></strong> (可选)：传给 <strong><font color="#ff502c">fn</font></strong> 的参数<ul>
+<li><strong><font color="#ff502c">apply</font></strong> 传递的第二个参数为数组</li>
+</ul>
+</li>
+</ul>
+<h3 id="作用"><a href="#作用" class="headerlink" title="作用"></a><strong>作用</strong></h3><p>改变 <strong><font color="#ff502c">this</font></strong> 指向</p>
+<h2 id="常见用法"><a href="#常见用法" class="headerlink" title="常见用法"></a><strong>常见用法</strong></h2><ol>
+<li>判断数据类型：**<font color="#ff502c">typeof</font>** 方法只返回七种值：**<font color="#ff502c">string、number、boolean、undefined、object、function、symbol</font>** 。所以使用 <strong><font color="#ff502c">typeof</font></strong> 是无法区分 <strong><font color="#ff502c">array</font></strong> 和普通对象的。</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">arr = [];</span><br><span class="line"><span class="keyword">typeof</span> arr; <span class="comment">// &quot;object&quot;</span></span><br><span class="line">obj = &#123;&#125;;</span><br><span class="line"><span class="keyword">typeof</span> obj; <span class="comment">// &quot;object&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong><font color="#ff502c">Object.prototype.toString</font></strong> 方法可以判断所有的类型，但 <strong><font color="#ff502c">Array、String</font></strong> 等都重写了该方法，因此就需要借助 <strong><font color="#ff502c">call/apply</font></strong> 来实现</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">arr = [];</span><br><span class="line"><span class="built_in">Object</span>.prototype.toString.call(arr); <span class="comment">// &#x27;[Object Array]&#x27;</span></span><br><span class="line"></span><br><span class="line">obj = &#123;&#125;;</span><br><span class="line"><span class="built_in">Object</span>.prototype.toString.call(obj); <span class="comment">// &#x27;[Object Object]&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>类数组调用数组的方法<blockquote>
+<p><strong>类数组定义</strong><br>① 拥有 <strong><font color="#ff502c">length</font></strong> 属性，其他属性(索引)为非负整数(对象中的索引会被当做字符串来处理)；<br>② 不具有数组所具有的方法；<br>JavaScript 中常见的类数组有 <strong><font color="#ff502c">arguments</font></strong> 对象和 DOM 方法的返回结果。比如 <strong><font color="#ff502c">doucment.getElementsByTagName()</font></strong> 。</p>
+</blockquote>
+</li>
+</ol>
+<p><strong><font color="#ff502c">ES6</font></strong> 未发布之前，没有 <strong><font color="#ff502c">Array.from</font></strong> 方法可以将类数组转为数组，采用 <strong><font color="#ff502c">Array.prototype.slice.call(arguments)</font></strong> 或者 <strong><font color="#ff502c">[].slice.call(arguments)</font></strong> 将类数组转化为数组。</p>
+<ol start="3">
+<li><strong><font color="#ff502c">apply</font></strong> 求数组的最大值与最小值</li>
+</ol>
+<p>JavaScript 中没有给数组提供类似 max 和 min 函数，只提供了 <strong><font color="#ff502c">Math.max/min</font></strong> ，用于求多个数的最值，所以可以借助 <strong><font color="#ff502c">apply</font></strong> 方法，直接传递数组给 <strong><font color="#ff502c">Math.max/min</font></strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> arr = [<span class="number">1</span>, <span class="number">10</span>, <span class="number">11</span>, <span class="number">33</span>, <span class="number">5</span>, <span class="number">62</span>, <span class="number">16</span>];</span><br><span class="line"><span class="built_in">Math</span>.max.apply(<span class="built_in">Math</span>, arr);</span><br><span class="line"><span class="built_in">Math</span>.min.apply(<span class="built_in">Math</span>, arr);</span><br></pre></td></tr></table></figure>
+
+<h2 id="手撕-call"><a href="#手撕-call" class="headerlink" title="手撕 call"></a><strong>手撕 call</strong></h2><h3 id="初步模拟"><a href="#初步模拟" class="headerlink" title="初步模拟"></a><strong>初步模拟</strong></h3><p>首先先来看一个例子，分析一下 call 函数的执行过程：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">  <span class="attr">value</span>: <span class="number">1</span>,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fun</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="built_in">this</span>.value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fun.call(obj); <span class="comment">// 1</span></span><br></pre></td></tr></table></figure>
+
+<p>可见 <strong><font color="#ff502c">call</font></strong> 函数调用大致执行了两步：</p>
+<ul>
+<li><strong><font color="#ff502c">call</font></strong> 改变了 <strong><font color="#ff502c">this</font></strong> 指向， <strong><font color="#ff502c">this -&gt; obj</font></strong></li>
+<li><strong><font color="#ff502c">fun</font></strong> 函数执行</li>
+</ul>
+<p>那该如何模拟上面的效果呢？如果在 obj 上定义函数 fun，之后 obj.fun 执行是不是就达成了上述的效果。<br>所以 call 的模拟步骤大约为：</p>
+<ul>
+<li>将函数 fn 设为 thisArg 的对象的方法</li>
+<li>执行 thisArg.fn</li>
+<li>删除该函数</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.myCall = <span class="function"><span class="keyword">function</span> (<span class="params">thisArg</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// this 为调用 myCall 的函数</span></span><br><span class="line">  thisArg.func = <span class="built_in">this</span>;</span><br><span class="line">  thisArg.func();</span><br><span class="line">  <span class="keyword">delete</span> thisArg.func;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="完善"><a href="#完善" class="headerlink" title="完善"></a><strong>完善</strong></h3><p>上面实现了 call 的最初版本代码，还有几个地方有待解决：</p>
+<ol>
+<li>未传入 thisArg 参数： 当未传入 thisArg 或传入 null 时，函数的 this -&gt; window</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">thisArg = thisArg || <span class="built_in">window</span>;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>传入 arg1，arg2 等参数：ES6 可以通过 rest 参数来实现， ES6 以前可以通过 arguments 来实现</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ES5</span></span><br><span class="line"><span class="keyword">const</span> args = [];</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i &lt; <span class="built_in">arguments</span>.length; i++) &#123;</span><br><span class="line">  args.push(<span class="string">&quot;arguments[&quot;</span> + i + <span class="string">&quot;]&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">eval</span>(<span class="string">&quot;thisArg.func(&quot;</span> + args + <span class="string">&quot;)&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong><font color="#ff502c">eavl()</font></strong> 函数计算 <strong><font color="#ff502c">JavaScript</font></strong> 字符串，并把它作为脚本代码来执行。<br><strong><font color="#ff502c">array</font></strong> 在与字符串相加时，会调用 <strong><font color="#ff502c">array.toString</font></strong> 方法 <strong><font color="#ff502c">([1,2,3].toString() // “1,2,3”)</font></strong></p>
+</blockquote>
+<ol start="3">
+<li>函数可以拥有返回值<br>举个例子：</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> obj = &#123;</span><br><span class="line">  <span class="attr">value</span>: <span class="number">1</span>,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">func</span>(<span class="params">name, age</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    <span class="attr">name</span>: name,</span><br><span class="line">    <span class="attr">age</span>: age,</span><br><span class="line">    <span class="attr">value</span>: <span class="built_in">this</span>.value,</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line">func.call(obj, <span class="string">&quot;xiaobao&quot;</span>, <span class="number">24</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//&#123;</span></span><br><span class="line"><span class="comment">//    name : &quot;xiaobao&quot;</span></span><br><span class="line"><span class="comment">//    age : 24</span></span><br><span class="line"><span class="comment">//    value : 1</span></span><br><span class="line"><span class="comment">//&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>不过很好解决，因此只需将 eval 执行之后的结果返回即可。<br>接着我们来看一下完整版的代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.myCall = <span class="function"><span class="keyword">function</span> (<span class="params">thisArg</span>) </span>&#123;</span><br><span class="line">  thisArg = thisArg || <span class="built_in">window</span>;</span><br><span class="line">  <span class="built_in">this</span>.func = <span class="built_in">this</span>;</span><br><span class="line">  <span class="keyword">const</span> args = [];</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i &lt; <span class="built_in">arguments</span>.length; i++) &#123;</span><br><span class="line">    args.push(<span class="string">&quot;arguments[&quot;</span> + i + <span class="string">&quot;]&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> result = <span class="built_in">eval</span>(<span class="string">&quot;thisArg.func(&quot;</span> + args + <span class="string">&quot;)&quot;</span>);</span><br><span class="line">  <span class="keyword">delete</span> thisArg.func;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>如果使用 ES6 语法进行模拟代码会简单很多</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.myCall = <span class="function"><span class="keyword">function</span> (<span class="params">thisArg, ...args</span>) </span>&#123;</span><br><span class="line">  thisArg = thisArg || <span class="built_in">window</span>;</span><br><span class="line">  thisArg.func = <span class="built_in">this</span>;</span><br><span class="line">  args = args || [];</span><br><span class="line">  <span class="keyword">const</span> result = thisArg.func(...args);</span><br><span class="line">  <span class="keyword">delete</span> thisArg.func;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="手撕-apply"><a href="#手撕-apply" class="headerlink" title="手撕 apply"></a><strong>手撕 apply</strong></h2><p>apply 的代码实现与 call 类似，这里直接给代码。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.myApply = <span class="function"><span class="keyword">function</span> (<span class="params">thisArg, arr</span>) </span>&#123;</span><br><span class="line">  thisArg = thisArg || <span class="built_in">window</span>;</span><br><span class="line">  thisArg.func = <span class="built_in">this</span>;</span><br><span class="line">  <span class="keyword">const</span> args = [];</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; arr.length; i++) &#123;</span><br><span class="line">    args.push(<span class="string">&quot;arr[&quot;</span> + i + <span class="string">&quot;]&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> result = <span class="built_in">eval</span>(<span class="string">&quot;thisArg.func(&quot;</span> + args + <span class="string">&quot;)&quot;</span>);</span><br><span class="line">  <span class="keyword">delete</span> thisArg.func;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+        </div>
+        
+        <footer class="kratos-entry-footer clearfix">
+            
+            <div class="footer-tag clearfix">
+                <div class="pull-left">
+                <i class="fa fa-tags"></i>
+                    <a class="tag-none-link" href="/tags/call%E3%80%81apply/" rel="tag">call、apply</a>
+                </div>
+                <div class="pull-date">
+                <span>最后编辑：2021-12-29</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+        <nav class="navigation post-navigation clearfix" role="navigation">
+            
+            <div class="nav-previous clearfix">
+                <a title=" JavaScript 之手撕 new" href="/2021/12/25/JavaScript-之手撕-new/">&lt; 上一篇</a>
+            </div>
+            
+            
+        </nav>
+    
+    
+</article>
+
+        
+
+            </section>
+
+        
+
+                
+            
+
+<section id="kratos-widget-area" class="col-md-4 hidden-xs hidden-sm">
+    <!-- 文章和页面根据splitter来分割，没有的话就从头开始设置为sticky -->
+    
+    
+                <aside id="krw-about" class="widget widget-kratos-about clearfix">
+    <div class="photo-background"></div>
+    <div class="photo-wrapper clearfix">
+        <div class="photo-wrapper-tip text-center">
+            <img class="about-photo" src="/images/alipay.jpeg" />
+        </div>
+    </div>
+    <div class="textwidget">
+        <p class="text-center">西瓜🍉</p>
+    </div>
+</aside>
+            
+                    <div class="sticky-area">
+                
+                
+
+            
+                
+  <aside id="krw-tags" class="widget widget-kratos-tags clearfix">
+    <h4 class="widget-title"><i class="fa fa-tags"></i>标签聚合</h4>
+      <div class="tag-clouds">
+        <a href="/tags/JavaScript/" style="font-size: 0.6em;">JavaScript</a> <a href="/tags/call%E3%80%81apply/" style="font-size: 0.6em;">call、apply</a> <a href="/tags/new/" style="font-size: 0.6em;">new</a> <a href="/tags/%E9%A2%84%E7%BC%96%E8%AF%91/" style="font-size: 0.6em;">预编译</a>
+      </div>
+  </aside>
+
+            
+                
+  <aside id="krw-posts" class="widget widget-kratos-posts">
+  <h4 class="widget-title"><i class="fa fa-file"></i>最新文章</h4>
+  <div class="tab-content">
+      <ul class="list-group">
+        
+        
+          
+          
+            <a class="list-group-item" href="/2021/12/29/JavaScript-%E4%B9%8B%E6%89%8B%E6%92%95call%E3%80%81apply/"><i class="fa  fa-book"></i> JavaScript 之手撕call、apply</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/12/25/JavaScript-%E4%B9%8B%E6%89%8B%E6%92%95-new/"><i class="fa  fa-book"></i> JavaScript 之手撕 new</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/12/20/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/"><i class="fa  fa-book"></i> JavaScript 预编译</a>
+            
+          
+        
+      </ul>
+  </div>
+  </aside>
+
+            
+    </div>
+</section>
+        
+        </div>
+    </div>
+</div>
+<footer>
+    <div id="footer"  class="ap-lrc"  >
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3 footer-list text-center">
+                    <ul class="kratos-social-icons">
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                    </ul>
+                    <ul class="kratos-copyright">
+                        <div>
+                            <li>&copy; 2021 西瓜和栗子的 Blog 版权所有.</li>
+                            <li><span id="span_dt">Loading...</span></li>
+                        </div>
+                        <div>
+                            <li>Theme <a href="https://github.com/Candinya/Kratos-Rebirth" target="_blank">Kratos:Rebirth</a></li>
+                            <li>Site built with&nbsp;<i class="fa fa-heart throb" style="color:#d43f57"></i>&nbsp;by 西瓜.</li>
+                        </div>
+                        <div>
+                            <li>Powered by <a href="https://hexo.io" target="_blank" rel="nofollow">Hexo</a></li>
+                            <li>Hosted on <a href="https://github.io" target="_blank">Github Pages</a></li>
+                        </div>
+                        <div>
+                            
+                            
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="kr-tool text-center">
+            <div class="tool">
+                
+                    <div class="box search-box">
+                        <a href="/search/">
+                            <span class="fa fa-search"></span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="box theme-box" id="darkmode-switch">
+                        <span class="fa fa-adjust"></span>
+                    </div>
+                
+                
+            </div>
+            <div class="box gotop-box">
+                <span class="fa fa-chevron-up"></span>
+            </div>
+        </div>
+    </div>
+</footer>
+</div>
+</div>
+
+        <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.4/dist/js/bootstrap.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js"></script>
+<script>
+    if (!window.kr) {
+        window.kr = {};
+    }
+    window.kr.notMobile = (!(navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)));
+    window.kr.siteRoot = "/";
+</script>
+
+
+    <script async src="/js/candy.min.js"></script>
+
+
+
+    <script defer src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+    <meting-js
+        server="netease"
+        type="playlist"
+        id="3204190542"
+        order="random"
+        fixed="true"
+    >
+    </meting-js>
+
+
+
+    <script defer src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+<script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script>
+<script defer src="/js/kratosr.min.js"></script>
+<script defer src="/js/pjax.min.js"></script>
+
+
+    <script defer src="/js/kr-dark.min.js"></script>
+
+
+
+<!-- Extra support for third-party plguins  -->
+
+
+    </body>
+</html>
