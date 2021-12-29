@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <!-- 元数据 -->
+  <meta charset="utf-8">
+  <link rel="icon" href="">
+  <title>JavaScript 之手撕 new | 西瓜和栗子的 Blog</title>
+  <meta name="author" content="西瓜" />
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="robots" content="index,follow" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <meta name="format-detection" content="telphone=no, email=no" />
+  
+    <meta name="keywords" content="new" />
+  
+  <meta name="description" content="前言什么是 new 呢？  new 运算符创建一个用户定义的对象类型的实例或具有构造函数的内置对象类型之一。  光看定义还是有几分晦涩的，直接看一个具体的例子，来了解一下 JavaScript 中的 new 实现的功能。 举个例子1234567891011121314151617function Thin_User(name, age) &amp;#123;    this.name &#x3D; name;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript 之手撕 new">
+<meta property="og:url" content="http://example.com/2021/12/25/JavaScript-%E4%B9%8B%E6%89%8B%E6%92%95-new/index.html">
+<meta property="og:site_name" content="西瓜和栗子的 Blog">
+<meta property="og:description" content="前言什么是 new 呢？  new 运算符创建一个用户定义的对象类型的实例或具有构造函数的内置对象类型之一。  光看定义还是有几分晦涩的，直接看一个具体的例子，来了解一下 JavaScript 中的 new 实现的功能。 举个例子1234567891011121314151617function Thin_User(name, age) &amp;#123;    this.name &#x3D; name;">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/null">
+<meta property="article:published_time" content="2021-12-25T07:00:37.000Z">
+<meta property="article:modified_time" content="2021-12-29T05:58:36.560Z">
+<meta property="article:author" content="西瓜">
+<meta property="article:tag" content="new">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/null">
+<meta name="twitter:site" content="@null">
+  
+  <!-- 站点验证相关 -->
+  
+    
+    
+    
+  
+  <!-- 样式表文件 -->
+  <link rel="stylesheet" id="kratos-css" href="/css/kratosr.min.css" type="text/css" media="all">
+  
+    <link rel="stylesheet" id="highlight-css" href="/css/highlight/night-eighties.min.css" type="text/css" media="all">
+  
+  
+  <link rel="stylesheet" id="fontawe-css" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" type="text/css" media="all">
+  <link rel="stylesheet" id="nprogress-css" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" type="text/css" media="all">
+  
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
+  
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+  
+  
+    <link rel="stylesheet" id="darkmode-css" href="/css/kr-dark.min.css" type="text/css" media="all">
+  
+  <!-- 不得不预先加载的一些JS文件 -->
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  
+  
+  <style>
+    
+      .kratos-cover.kratos-cover-2 {
+        background-image: url('/images/banner.jpg');
+      }
+    
+    
+      @media(min-width:768px) {
+        body.custom-background {
+          background-image: url('/images/bg.jpg');
+        }
+      }
+    
+  </style>
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+    <body class="custom-background">
+        <div id="kratos-wrapper">
+    <div id="kratos-page">
+        <div id="kratos-header">
+            <header id="kratos-desktop-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="nav-header">
+                        <nav id="kratos-menu-wrap">
+                            <ul id="kratos-primary-menu" class="sf-menu">
+                                
+                                    
+                                        <li><a href="/"><i class="fa fa-home"></i>首页</a></li>
+                                    
+                                
+                                    
+                                        <li><a href="/archives/"><i class="fa fa-file"></i>档案馆</a></li>
+                                    
+                                
+                                    
+                                        <li><a href="/friends/"></a></li>
+                                    
+                                
+                                    
+                                        <li>
+                                            <a></a>
+                                            <ul class="sub-menu">
+                                                
+                                                    
+                                                
+                                                    
+                                                        <li><a target="_blank" rel="noopener" href="https://candinya.com"></a></li>
+                                                    
+                                                
+                                                    
+                                                        <li><a target="_blank" rel="noopener" href="https://github.com/Candinya/Kratos-Rebirth"></a></li>
+                                                    
+                                                
+                                            </ul>
+                                        </li>
+                                    
+                                
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </header>
+            <header id="kratos-mobile-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="color-logo"><a href="/">西瓜和栗子的 Blog</a></div>
+                    <div class="nav-toggle">
+                        <a class="kratos-nav-toggle js-kratos-nav-toggle">
+                            <i></i>
+                        </a>
+                    </div>
+                </div>
+            </header>
+        </div>
+        <div class="kratos-start kratos-hero-2">
+            <!-- <div class="kratos-overlay"></div> -->
+            <div class="kratos-cover kratos-cover-2 text-center">
+                <div class="desc desc2 animate-box">
+                    <a href="/">
+                        <h2>西瓜和栗子的 Blog</h2> <br />
+                        <span></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div id="kratos-blog-post">
+            <div class="container">
+                <div id="main" class="row">
+                    
+
+        
+
+            <section class="col-md-8">
+
+        
+
+            <article>
+    <div class="kratos-hentry kratos-post-inner clearfix">
+        <header class="kratos-entry-header">
+            
+                <h1 class="kratos-entry-title text-center">JavaScript 之手撕 new</h1>
+            
+            
+            <ul class="kratos-post-meta text-center">
+                <li><i class="fa fa-calendar"></i> 2021-12-25</li>
+                <li><i class="fa fa-user"></i> 作者 西瓜</li>
+                <li>
+                    <i class="fa fa-edit"></i> 
+                    
+                    
+                        ~3.19K
+                    
+                    字
+                </li>
+                
+            </ul>
+        </header>
+        <div class="kratos-post-content">
+            <div id="expire-alert" class="alert alert-warning hidden" role="alert">
+                本文最后编辑于 <time datetime="1640757516560"></time> 前，其中的内容可能需要更新。
+            </div>
+            
+            <hr />
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><strong>前言</strong></h2><p>什么是 <strong><font color="#ff502c">new</font></strong> 呢？</p>
+<blockquote>
+<p><strong><font color="#ff502c">new</font></strong> 运算符创建一个用户定义的对象类型的实例或具有构造函数的内置对象类型之一。</p>
+</blockquote>
+<p>光看定义还是有几分晦涩的，直接看一个具体的例子，来了解一下 <strong><font color="#ff502c">JavaScript</font></strong> 中的 <strong><font color="#ff502c">new</font></strong> 实现的功能。</p>
+<h2 id="举个例子"><a href="#举个例子" class="headerlink" title="举个例子"></a><strong>举个例子</strong></h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Thin_User</span>(<span class="params">name, age</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">this</span>.name = name;</span><br><span class="line">    <span class="built_in">this</span>.age = age;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Thin_User.prototype.eatToMuch = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;i eat so much,but i\&#x27;m very thin!!!&#x27;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Thin_User.prototype.isThin = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span>  xiaobao = <span class="keyword">new</span> Thin_User(<span class="string">&#x27;xiaobao&#x27;</span>,<span class="number">18</span>);</span><br><span class="line"><span class="built_in">console</span>.log(xiaobao.name);  <span class="comment">// xiaobao</span></span><br><span class="line"><span class="built_in">console</span>.log(xiaobao.age);   <span class="comment">// 18</span></span><br><span class="line"><span class="built_in">console</span>.log(xiaobao.isThin) <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line">xiaobao.eatToMuch(); <span class="comment">// i eat so much,but i&#x27;m very thin!!!</span></span><br></pre></td></tr></table></figure>
+
+<p>通过上面这个例子，我们可以发现 <strong><font color="#ff502c">xiaobao</font></strong> 可以：</p>
+<ul>
+<li>访问到构造函数 <strong><font color="#ff502c">Thin_User</font></strong> 中的属性</li>
+<li>访问到 <strong><font color="#ff502c">Thin_User.prototype</font></strong> 中的属性</li>
+</ul>
+<p>描述的更直白一点， <strong><font color="#ff502c">new</font></strong> 做了这几件事：</p>
+<ul>
+<li>创建了一个空对象，对象的 __ proto __ -&gt; Thin_User.prototype</li>
+<li>执行构造函数，并将 <strong><font color="#ff502c">this</font></strong> 指向新对象</li>
+<li>返回新对象</li>
+</ul>
+<h2 id="补充说明"><a href="#补充说明" class="headerlink" title="补充说明"></a><strong>补充说明</strong></h2><p>由于 <strong><font color="#ff502c">new</font></strong> 是关键字，我们无法像模拟数组高阶方法一样覆盖，因此我们写一个函数 <strong><font color="#ff502c">createObject</font></strong> ，来模拟 <strong><font color="#ff502c">new</font></strong> 的效果。使用具体如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Thin_User</span>(<span class="params">name,age</span>) </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> u1 = <span class="keyword">new</span> Thin_User(...)</span><br><span class="line"><span class="keyword">const</span> u2 = createObject(Thin_User, ...a\)</span><br></pre></td></tr></table></figure>
+
+<h2 id="初步模拟"><a href="#初步模拟" class="headerlink" title="初步模拟"></a><strong>初步模拟</strong></h2><p>根据上面的分析，**<font color="#ff502c">createObject</font>** 编写大致步骤为：</p>
+<ul>
+<li>创建了一个新对象 <strong><font color="#ff502c">obj</font></strong></li>
+<li>设置 <strong><font color="#ff502c">obj.__ proto __ -&gt; constructor.prototype</font></strong>  (但 JavaScript 不推荐直接修改 __ proto__ 属性，提供了 setPrototypeOf 方法来专门修改原型)</li>
+<li>使用 <strong><font color="#ff502c">constructor.call/apply(obj,…)</font></strong> ,将属性添加到 obj 上</li>
+<li>返回 <strong><font color="#ff502c">obj</font></strong></li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createObject</span>(<span class="params">Con</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 创建对象 obj</span></span><br><span class="line">    <span class="comment">// var obj = &#123;&#125; 也可以</span></span><br><span class="line">    <span class="keyword">var</span> obj =  <span class="built_in">Object</span>.create(<span class="literal">null</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 将 obj.__proto__ = Con.prototype</span></span><br><span class="line">    <span class="built_in">Object</span>.setPrototypeOf(obj,Con.prototype);</span><br><span class="line">   </span><br><span class="line">    <span class="comment">// 执行构造函数</span></span><br><span class="line">    Con.apply(obj, [].slice.call(<span class="built_in">arguments</span>, <span class="number">1</span>));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 返回新对象</span></span><br><span class="line">    <span class="keyword">return</span> obj;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="返回值效果"><a href="#返回值效果" class="headerlink" title="返回值效果"></a><strong>返回值效果</strong></h2><p>众所周知，函数是有返回值的，那构造函数如果有返回值，最终执行 new 后返回的结果是什么样的？</p>
+<h2 id="返回值为基本类型"><a href="#返回值为基本类型" class="headerlink" title="返回值为基本类型"></a><strong>返回值为基本类型</strong></h2><p>假设构造函数返回值为一个基本类型，我们来看一下最后的返回结果：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Thin_User</span>(<span class="params">name,age</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">this</span>.name = name;</span><br><span class="line">    <span class="built_in">this</span>.age = age;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Thin_User.prototype.eatToMuch = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;i eat so much,but i\&#x27;m very thin!!!&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Thin_User.prototype.isThin = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> xiaobao = <span class="keyword">new</span> Thin_User(<span class="string">&#x27;xiaobao&#x27;</span>,<span class="number">18</span>);</span><br><span class="line"><span class="built_in">console</span>.log(xiaobao.name); <span class="comment">// xiaobao</span></span><br><span class="line"><span class="built_in">console</span>.log(xiaobao.age); <span class="comment">// 18</span></span><br><span class="line"><span class="built_in">console</span>.log(xiaobao.isThin) <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line">xiaobao.eatToMuch(); <span class="comment">// i eat so much,but i&#x27;m very thin!!!</span></span><br></pre></td></tr></table></figure>
+
+<p>最终的返回结果好像没有受到任何干扰，难道构造函数不会对返回值进行处理吗？</p>
+<p>不急，我们来接着测试一下返回值为对象的情况。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Thin_User</span>(<span class="params">name,age</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">this</span>.name = name;</span><br><span class="line">    <span class="built_in">this</span>.age = age;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        <span class="attr">name</span>: name,</span><br><span class="line">        <span class="attr">age</span>: age*<span class="number">10</span>,</span><br><span class="line">        <span class="attr">fat</span>: <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Thin_User.prototype.eatToMuch = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;i eat so much,but i\&#x27;m very thin!!!&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Thin_User.prototype.isThin = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> xiaobao = <span class="keyword">new</span> Thin_User(<span class="string">&#x27;xiaobao&#x27;</span>,<span class="number">18</span>);</span><br><span class="line"></span><br><span class="line">xiaobao.eatToMuch(); <span class="comment">// Error: xiaobao.eatToMuch is not a function</span></span><br></pre></td></tr></table></figure>
+
+<p>当执行 <strong><font color="#ff502c">eatToMuch</font></strong> 时，控制台直接报错，没有当前函数，所以答应了 <strong><font color="#ff502c">xiaobao</font></strong> 对象：<br><img src="https://cdn.nlark.com/yuque/0/2021/png/22777198/1635246509630-b9ac9bc0-9ef1-4414-b5d2-b3a186e3c47f.png" alt="avatar"></p>
+<p>发现 <strong><font color="#ff502c">xiaobao</font></strong> 对象的 <strong><font color="#ff502c">age</font></strong> 发生了改变，而且增加了 <strong><font color="#ff502c">fat</font></strong> 属性，正好与构造函数的返回值一样。<br>看完这两个例子，基本可以理清构造函数有返回值的情况：<strong>当构造函数返回值为对象时，直接返回这个对象。</strong></p>
+<h2 id="最终模拟"><a href="#最终模拟" class="headerlink" title="最终模拟"></a><strong>最终模拟</strong></h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createObject</span>(<span class="params">Con</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 创建对象 obj</span></span><br><span class="line">    <span class="comment">// var obj = &#123;&#125;; 也可以</span></span><br><span class="line">    <span class="keyword">var</span> obj = Obejct.create(<span class="literal">null</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 将 obj.__proto__ -&gt; 构造函数原型</span></span><br><span class="line">    <span class="built_in">Object</span>.setPrototypeOf(obj, Con.prototype);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 执行构造函数，并接收构造函数返回值</span></span><br><span class="line">    <span class="keyword">const</span> ret = Con.apply(obj, [].slice.call(<span class="built_in">arguments</span>,<span class="number">1</span>));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 若构造函数返回值为对象，直接返回对象</span></span><br><span class="line">    <span class="comment">// 否则返回 obj</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">typeof</span>(ret) === <span class="string">&#x27;object&#x27;</span> ? ret : obj;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        </div>
+        
+        <footer class="kratos-entry-footer clearfix">
+            
+            <div class="footer-tag clearfix">
+                <div class="pull-left">
+                <i class="fa fa-tags"></i>
+                    <a class="tag-none-link" href="/tags/new/" rel="tag">new</a>
+                </div>
+                <div class="pull-date">
+                <span>最后编辑：2021-12-29</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+        <nav class="navigation post-navigation clearfix" role="navigation">
+            
+            <div class="nav-previous clearfix">
+                <a title=" JavaScript 预编译" href="/2021/12/20/我的第一篇博客文章/">&lt; 上一篇</a>
+            </div>
+            
+            
+        </nav>
+    
+    
+</article>
+
+        
+
+            </section>
+
+        
+
+                
+            
+
+<section id="kratos-widget-area" class="col-md-4 hidden-xs hidden-sm">
+    <!-- 文章和页面根据splitter来分割，没有的话就从头开始设置为sticky -->
+    
+    
+                <aside id="krw-about" class="widget widget-kratos-about clearfix">
+    <div class="photo-background"></div>
+    <div class="photo-wrapper clearfix">
+        <div class="photo-wrapper-tip text-center">
+            <img class="about-photo" src="/images/alipay.jpeg" />
+        </div>
+    </div>
+    <div class="textwidget">
+        <p class="text-center">西瓜🍉</p>
+    </div>
+</aside>
+            
+                    <div class="sticky-area">
+                
+                
+
+            
+                
+  <aside id="krw-tags" class="widget widget-kratos-tags clearfix">
+    <h4 class="widget-title"><i class="fa fa-tags"></i>标签聚合</h4>
+      <div class="tag-clouds">
+        <a href="/tags/JavaScript/" style="font-size: 0.6em;">JavaScript</a> <a href="/tags/new/" style="font-size: 0.6em;">new</a> <a href="/tags/%E9%A2%84%E7%BC%96%E8%AF%91/" style="font-size: 0.6em;">预编译</a>
+      </div>
+  </aside>
+
+            
+                
+  <aside id="krw-posts" class="widget widget-kratos-posts">
+  <h4 class="widget-title"><i class="fa fa-file"></i>最新文章</h4>
+  <div class="tab-content">
+      <ul class="list-group">
+        
+        
+          
+          
+            <a class="list-group-item" href="/2021/12/25/JavaScript-%E4%B9%8B%E6%89%8B%E6%92%95-new/"><i class="fa  fa-book"></i> JavaScript 之手撕 new</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/12/20/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/"><i class="fa  fa-book"></i> JavaScript 预编译</a>
+            
+          
+        
+      </ul>
+  </div>
+  </aside>
+
+            
+    </div>
+</section>
+        
+        </div>
+    </div>
+</div>
+<footer>
+    <div id="footer"  class="ap-lrc"  >
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3 footer-list text-center">
+                    <ul class="kratos-social-icons">
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                    </ul>
+                    <ul class="kratos-copyright">
+                        <div>
+                            <li>&copy; 2021 西瓜和栗子的 Blog 版权所有.</li>
+                            <li><span id="span_dt">Loading...</span></li>
+                        </div>
+                        <div>
+                            <li>Theme <a href="https://github.com/Candinya/Kratos-Rebirth" target="_blank">Kratos:Rebirth</a></li>
+                            <li>Site built with&nbsp;<i class="fa fa-heart throb" style="color:#d43f57"></i>&nbsp;by 西瓜.</li>
+                        </div>
+                        <div>
+                            <li>Powered by <a href="https://hexo.io" target="_blank" rel="nofollow">Hexo</a></li>
+                            <li>Hosted on <a href="https://github.io" target="_blank">Github Pages</a></li>
+                        </div>
+                        <div>
+                            
+                            
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="kr-tool text-center">
+            <div class="tool">
+                
+                    <div class="box search-box">
+                        <a href="/search/">
+                            <span class="fa fa-search"></span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="box theme-box" id="darkmode-switch">
+                        <span class="fa fa-adjust"></span>
+                    </div>
+                
+                
+            </div>
+            <div class="box gotop-box">
+                <span class="fa fa-chevron-up"></span>
+            </div>
+        </div>
+    </div>
+</footer>
+</div>
+</div>
+
+        <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.4/dist/js/bootstrap.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js"></script>
+<script>
+    if (!window.kr) {
+        window.kr = {};
+    }
+    window.kr.notMobile = (!(navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)));
+    window.kr.siteRoot = "/";
+</script>
+
+
+    <script async src="/js/candy.min.js"></script>
+
+
+
+    <script defer src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+    <meting-js
+        server="netease"
+        type="playlist"
+        id="3204190542"
+        order="random"
+        fixed="true"
+    >
+    </meting-js>
+
+
+
+    <script defer src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+<script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script>
+<script defer src="/js/kratosr.min.js"></script>
+<script defer src="/js/pjax.min.js"></script>
+
+
+    <script defer src="/js/kr-dark.min.js"></script>
+
+
+
+<!-- Extra support for third-party plguins  -->
+
+
+    </body>
+</html>
