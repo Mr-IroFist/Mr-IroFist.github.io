@@ -4,7 +4,7 @@
   <!-- 元数据 -->
   <meta charset="utf-8">
   <link rel="icon" href="">
-  <title>西瓜和栗子的 Blog</title>
+  <title>JavaScript 静态作用域与动态作用域 | 西瓜和栗子的 Blog</title>
   <meta name="author" content="西瓜" />
   <meta http-equiv="Cache-Control" content="no-transform" />
   <meta http-equiv="Cache-Control" content="no-siteapp" />
@@ -13,17 +13,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <meta name="format-detection" content="telphone=no, email=no" />
   
-    <meta name="keywords" content="" />
+    <meta name="keywords" content="作用域" />
   
-  <meta name="description" content="西瓜🍉">
-<meta property="og:type" content="website">
-<meta property="og:title" content="西瓜和栗子的 Blog">
-<meta property="og:url" content="http://example.com/archives/2021/12/index.html">
+  <meta name="description" content="概述在文章开始前，先学习几个概念：  作用域：《你不知道的js》中指出，作用域是一套规则，这套规则用来管理引擎如何在当前作用域以及嵌套的子作用域中根据标识符名称进行变量查找。简单来说，作用域规定了如何查找变量。 静态作用域：又称词法作用域，是指作用域在词法阶段就被确定了，不会改变。 动态作用域：函数的作用域在函数调用时才决定的。  静态作用域与动态作用域JavaScript 采用的是词法作用域，函">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript 静态作用域与动态作用域">
+<meta property="og:url" content="http://example.com/2022/01/18/JavaScript-%E9%9D%99%E6%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8E%E5%8A%A8%E6%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F/index.html">
 <meta property="og:site_name" content="西瓜和栗子的 Blog">
-<meta property="og:description" content="西瓜🍉">
+<meta property="og:description" content="概述在文章开始前，先学习几个概念：  作用域：《你不知道的js》中指出，作用域是一套规则，这套规则用来管理引擎如何在当前作用域以及嵌套的子作用域中根据标识符名称进行变量查找。简单来说，作用域规定了如何查找变量。 静态作用域：又称词法作用域，是指作用域在词法阶段就被确定了，不会改变。 动态作用域：函数的作用域在函数调用时才决定的。  静态作用域与动态作用域JavaScript 采用的是词法作用域，函">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://example.com/null">
+<meta property="article:published_time" content="2022-01-18T06:33:51.000Z">
+<meta property="article:modified_time" content="2022-01-18T08:47:07.618Z">
 <meta property="article:author" content="西瓜">
+<meta property="article:tag" content="作用域">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/null">
 <meta name="twitter:site" content="@null">
@@ -154,127 +157,80 @@
 
         
 
+            <article>
+    <div class="kratos-hentry kratos-post-inner clearfix">
+        <header class="kratos-entry-header">
             
-<style>
-  .post-meta time{color:#00a7e0}
-  @media (max-width:767px){.posts-collapse{margin:0 20px}
-  .posts-collapse .post-meta,.posts-collapse .post-title{display:block;width:auto;text-align:left}}
-  .posts-collapse{position:relative}
-  .posts-collapse::after{content:" ";position:absolute;top:20px;left:0;margin-left:-2px;width:4px;height:calc(100% - 35px);background:#f5f5f5;z-index:-1}
-  @media (max-width:991px){.posts-collapse{margin:0 20px}}
-  .posts-collapse .collection-title{position:relative}
-  .posts-collapse .collection-title h1,.posts-collapse .collection-title h2{margin-left:20px}.posts-collapse .collection-title small{color:#bbb;margin-left:5px}
-  .posts-collapse .collection-title::before{content:" ";position:absolute;left:0;top:50%;margin-left:-4px;margin-top:-4px;width:8px;height:8px;background:#bbb;border-radius:50%}
-  .posts-collapse .post-header{position:relative;transition-duration:.2s;transition-timing-function:ease-in-out;transition-delay:0s;transition-property:border}
-  .posts-collapse .post-header::before{content:" ";position:absolute;left:0;top:12px;width:6px;height:6px;margin-left:-4px;background:#bbb;border-radius:50%;border:1px solid #fff}
-  .posts-collapse .post-header:hover{border-bottom-color:#666}.posts-collapse .post-header:hover::before{background:#222}
-  .posts-collapse .post-meta{position:absolute;font-size:12px;left:20px;top:5px}
-  .posts-collapse .post-comments-count{display:none}
-  .posts-collapse .post-title{margin-left:70px;font-size:16px;font-weight:400;line-height:inherit}
-  .posts-collapse .post-title::after{margin-left:3px;opacity:.6}.posts-collapse .post-title a{color:#666;border-bottom:none}
-  .kratos-post-content div.arc-tags{margin-bottom:30px}
-  .arc-tags a{-webkit-box-shadow:0 1px 4px rgba(0,0,0,.1);box-shadow:0 1px 4px rgba(0,0,0,.1);border:1px solid #fff;border-radius:15px;margin:4px 8px 0 0;font-weight:500;display:inline-block;padding:0 12px;background:rgba(255,255,255,.5);font-size:16px;}
-  .arc-tags a::before{content:"# ";color:#e8a6a6}
-</style>
+                <h1 class="kratos-entry-title text-center">JavaScript 静态作用域与动态作用域</h1>
+            
+            
+            <ul class="kratos-post-meta text-center">
+                <li><i class="fa fa-calendar"></i> 2022-01-18</li>
+                <li><i class="fa fa-user"></i> 作者 西瓜</li>
+                <li>
+                    <i class="fa fa-edit"></i> 
+                    
+                    
+                        1385
+                    
+                    字
+                </li>
+                
+            </ul>
+        </header>
+        <div class="kratos-post-content">
+            <div id="expire-alert" class="alert alert-warning hidden" role="alert">
+                本文最后编辑于 <time datetime="1642495627618"></time> 前，其中的内容可能需要更新。
+            </div>
+            
+            <hr />
+            <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a><strong>概述</strong></h2><p>在文章开始前，先学习几个概念：</p>
+<ul>
+<li>作用域：《你不知道的js》中指出，作用域是一套规则，这套规则用来管理引擎如何在当前作用域以及嵌套的子作用域中根据标识符名称进行变量查找。简单来说，作用域规定了如何查找变量。</li>
+<li>静态作用域：又称词法作用域，是指作用域在词法阶段就被确定了，不会改变。</li>
+<li>动态作用域：函数的作用域在函数调用时才决定的。</li>
+</ul>
+<h2 id="静态作用域与动态作用域"><a href="#静态作用域与动态作用域" class="headerlink" title="静态作用域与动态作用域"></a><strong>静态作用域与动态作用域</strong></h2><p>JavaScript 采用的是词法作用域，函数定义的位置就决定了函数的作用域。</p>
+<p>具体看一个例子：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> val = <span class="number">1</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(val);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> val = <span class="number">2</span>;</span><br><span class="line">    test();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">bar();</span><br><span class="line"><span class="comment">// 结果是 ？？？</span></span><br></pre></td></tr></table></figure>
 
-  <article>
-      <div class="kratos-hentry kratos-post-inner clearfix">
-          <div class="kratos-post-content">
-            <h2 class="title-h2 text-center">文章归档</h2>
-            <div id="archives">
-                
-                  <div class="arc-tags">
-                      <a class="tag-none-link" href="/tags/JavaScript/" rel="tag">JavaScript</a> <a class="tag-none-link" href="/tags/call%E3%80%81apply/" rel="tag">call、apply</a> <a class="tag-none-link" href="/tags/new/" rel="tag">new</a> <a class="tag-none-link" href="/tags/%E4%BD%9C%E7%94%A8%E5%9F%9F/" rel="tag">作用域</a> <a class="tag-none-link" href="/tags/%E9%A2%84%E7%BC%96%E8%AF%91/" rel="tag">预编译</a>
-                  </div>
-                
-                <div class="post-block archive post" style="margin-left: 2em;">
-                  <h3 class="archive-page-counter">当前共有 3 篇文章 (゜-゜)つロ 干杯~</h3>
-                  <div class="posts-collapse">
-                    
-                    
-                      
-                      
-                        <!-- 没遇到Title的会被自动忽略年份，即使并不一致 -->
-                        
-                        <div class="collection-title">
-                          <a href="/archives/2021/"><h2 class="archive-year">2021</h2></a>
-                        </div>
-                      
-                      
-                        <article class="post" itemscope>
-                          <header class="post-header">
-                            <h3 class="post-title">
-                              
-                                  <a class="post-title-link" href="/2021/12/29/JavaScript-%E4%B9%8B%E6%89%8B%E6%92%95call%E3%80%81apply/" itemprop="url">
-                                    <span itemprop="name">JavaScript 之手撕call、apply</span>
-                                  </a>
-                              
-                            </h3>
-                            <div class="post-meta">
-                              <time class="post-time" itemprop="dateCreated"
-                                    datetime="2021-12-29T14:04:47+08:00"
-                                    content="2021-12-29" >
-                                12-29
-                              </time>
-                            </div>
-                          </header>
-                        </article>
-                      
-                    
-                      
-                      
-                      
-                        <article class="post" itemscope>
-                          <header class="post-header">
-                            <h3 class="post-title">
-                              
-                                  <a class="post-title-link" href="/2021/12/25/JavaScript-%E4%B9%8B%E6%89%8B%E6%92%95-new/" itemprop="url">
-                                    <span itemprop="name">JavaScript 之手撕 new</span>
-                                  </a>
-                              
-                            </h3>
-                            <div class="post-meta">
-                              <time class="post-time" itemprop="dateCreated"
-                                    datetime="2021-12-25T15:00:37+08:00"
-                                    content="2021-12-25" >
-                                12-25
-                              </time>
-                            </div>
-                          </header>
-                        </article>
-                      
-                    
-                      
-                      
-                      
-                        <article class="post" itemscope>
-                          <header class="post-header">
-                            <h3 class="post-title">
-                              
-                                  <a class="post-title-link" href="/2021/12/20/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/" itemprop="url">
-                                    <span itemprop="name">JavaScript 预编译</span>
-                                  </a>
-                              
-                            </h3>
-                            <div class="post-meta">
-                              <time class="post-time" itemprop="dateCreated"
-                                    datetime="2021-12-20T14:09:53+08:00"
-                                    content="2021-12-20" >
-                                12-20
-                              </time>
-                            </div>
-                          </header>
-                        </article>
-                      
-                    
-                  </div>
+<p>最终的结果是 <strong><font color="#ff502c">1</font></strong> ，说明 <strong><font color="#ff502c">test</font></strong> 打印的是全局下的 <strong><font color="#ff502c">val</font></strong> , 这也印证了 <strong><font color="#ff502c">JavaScript</font></strong> 使用了静态作用域。</p>
+<p>在学习词法作用域之前，已经学习了作用域链和预编译过程，虽然有几分本末倒置，但是对词法的理解还是有一定帮助的。</p>
+<h2 id="静态作用域执行过程"><a href="#静态作用域执行过程" class="headerlink" title="静态作用域执行过程"></a><strong>静态作用域执行过程</strong></h2><p>当函数执行 <strong><font color="#ff502c">test</font></strong> 函数时，先从内部的 <strong><font color="#ff502c">AO</font></strong> 对象查找是否有 <strong><font color="#ff502c"> val </font></strong> 对象，如果没有，沿着作用域链往上查找，上层为全局 <strong><font color="#ff502c">GO</font></strong> ，所以结果打印 <strong><font color="#ff502c">1</font></strong> 。</p>
+<h2 id="动态作用域执行过程"><a href="#动态作用域执行过程" class="headerlink" title="动态作用域执行过程"></a><strong>动态作用域执行过程</strong></h2><p>但如果 <strong><font color="#ff502c">JavaScript</font></strong> 采用动态作用域，执行 <strong><font color="#ff502c">test</font></strong> 函数，从函数内部查询 <strong><font color="#ff502c">val</font></strong> 变量，如果没有，就调用函数的作用域，即 <strong><font color="#ff502c">bar</font></strong> 函数的作用域，成功查询到 <strong><font color="#ff502c">val = 2</font></strong> 。</p>
+<h2 id="思考题"><a href="#思考题" class="headerlink" title="思考题"></a><strong>思考题</strong></h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> scope = <span class="string">&quot;global scope&quot;</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">checkscope</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> scope = <span class="string">&quot;local scope&quot;</span>;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> scope;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> f();</span><br><span class="line">&#125;</span><br><span class="line">checkscope()</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> scope = <span class="string">&quot;global scope&quot;</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">checkscope</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> scope = <span class="string">&quot;local scope&quot;</span>;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> scope;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> f;</span><br><span class="line">&#125;</span><br><span class="line">checkscope()()</span><br></pre></td></tr></table></figure>
+
+<p>很明显，两个都打印 <strong><font color="#ff502c">local scope</font></strong> ,<strong><font color="#ff502c">JavaScript</font></strong> 采用词法作用域，上述两个函数都定义在 <strong><font color="#ff502c">checkscope</font></strong> 中，所以当 <strong><font color="#ff502c">f()</font></strong>  函数执行时，首先查询自身作用域是否有 <strong><font color="#ff502c">scope</font></strong>  变量，如果没有，它们的上级作用域都是 <strong><font color="#ff502c">checkscope</font></strong> ，所以输出 <strong><font color="#ff502c">local scope</font></strong>  。</p>
+<p>对此 <strong><font color="#ff502c">《JavaScript权威指南》</font></strong>  解释到： <strong><font color="#ff502c">JavaScript</font></strong>  函数的执行用到了作用域链，这个作用域链是在函数定义的时候创建的。嵌套的函数 <strong><font color="#ff502c">f()</font></strong> 定义在这个作用域链里，其中的变量 <strong><font color="#ff502c">scope</font></strong> 一定是局部变量，不管何时何地执行函数 <strong><font color="#ff502c">f()</font></strong> ,这种绑定在执行 <strong><font color="#ff502c">f()</font></strong>  时依然有效。  </p>
+
+        </div>
+        
+        <footer class="kratos-entry-footer clearfix">
+            
+            <div class="footer-tag clearfix">
+                <div class="pull-left">
+                <i class="fa fa-tags"></i>
+                    <a class="tag-none-link" href="/tags/%E4%BD%9C%E7%94%A8%E5%9F%9F/" rel="tag">作用域</a>
+                </div>
+                <div class="pull-date">
+                <span>最后编辑：2022-01-18</span>
                 </div>
             </div>
-        </div>
-      </div>
-      
-  </article>
-
+        </footer>
+    </div>
+    
+        <nav class="navigation post-navigation clearfix" role="navigation">
+            
+            <div class="nav-previous clearfix">
+                <a title=" JavaScript 之手撕call、apply" href="/2021/12/29/JavaScript-之手撕call、apply/">&lt; 上一篇</a>
+            </div>
+            
+            
+        </nav>
+    
+    
+</article>
 
         
 
@@ -287,8 +243,6 @@
 
 <section id="kratos-widget-area" class="col-md-4 hidden-xs hidden-sm">
     <!-- 文章和页面根据splitter来分割，没有的话就从头开始设置为sticky -->
-    
-        <div class="sticky-area">
     
     
                 <aside id="krw-about" class="widget widget-kratos-about clearfix">
@@ -303,6 +257,8 @@
     </div>
 </aside>
             
+                    <div class="sticky-area">
+                
                 
 
             

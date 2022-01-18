@@ -15,16 +15,16 @@
   
     <meta name="keywords" content="call、apply" />
   
-  <meta name="description" content="前言call&#x2F;apply 的核心理念就是借用方法。call&#x2F;apply 做的是这样的事，**A** 对象上实现了一个方法， B 对象由于一些需求，也需要调用同样的方法，最好的方法肯定是 B 直接去调用 A 对象的方法，自身无需扩展。 基本介绍语法：12fn.call(thisArg,arg1,arg2,...);fn.apply(thisArg,[arg1,arg2,...]);  参数 this">
+  <meta name="description" content="前言call&#x2F;apply 的核心理念就是借用方法。call&#x2F;apply 做的是这样的事，   A 对象上实现了一个方法， B 对象由于一些需求，也需要调用同样的方法，最好的方法肯定是 B 直接去调用 A 对象的方法，自身无需扩展。 基本介绍语法：12fn.call(thisArg,arg1,arg2,...);fn.apply(thisArg,[arg1,arg2,...]);  参数 thisA">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JavaScript 之手撕call、apply">
 <meta property="og:url" content="http://example.com/2021/12/29/JavaScript-%E4%B9%8B%E6%89%8B%E6%92%95call%E3%80%81apply/index.html">
 <meta property="og:site_name" content="西瓜和栗子的 Blog">
-<meta property="og:description" content="前言call&#x2F;apply 的核心理念就是借用方法。call&#x2F;apply 做的是这样的事，**A** 对象上实现了一个方法， B 对象由于一些需求，也需要调用同样的方法，最好的方法肯定是 B 直接去调用 A 对象的方法，自身无需扩展。 基本介绍语法：12fn.call(thisArg,arg1,arg2,...);fn.apply(thisArg,[arg1,arg2,...]);  参数 this">
+<meta property="og:description" content="前言call&#x2F;apply 的核心理念就是借用方法。call&#x2F;apply 做的是这样的事，   A 对象上实现了一个方法， B 对象由于一些需求，也需要调用同样的方法，最好的方法肯定是 B 直接去调用 A 对象的方法，自身无需扩展。 基本介绍语法：12fn.call(thisArg,arg1,arg2,...);fn.apply(thisArg,[arg1,arg2,...]);  参数 thisA">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://example.com/null">
 <meta property="article:published_time" content="2021-12-29T06:04:47.000Z">
-<meta property="article:modified_time" content="2021-12-29T07:10:26.625Z">
+<meta property="article:modified_time" content="2022-01-18T08:32:10.928Z">
 <meta property="article:author" content="西瓜">
 <meta property="article:tag" content="call、apply">
 <meta name="twitter:card" content="summary">
@@ -171,7 +171,7 @@
                     <i class="fa fa-edit"></i> 
                     
                     
-                        ~3.78K
+                        ~3.76K
                     
                     字
                 </li>
@@ -180,18 +180,18 @@
         </header>
         <div class="kratos-post-content">
             <div id="expire-alert" class="alert alert-warning hidden" role="alert">
-                本文最后编辑于 <time datetime="1640761826625"></time> 前，其中的内容可能需要更新。
+                本文最后编辑于 <time datetime="1642494730928"></time> 前，其中的内容可能需要更新。
             </div>
             
             <hr />
-            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><strong>前言</strong></h2><p><strong><font color="#ff502c">call/apply</font></strong> 的核心理念就是借用方法。<br><strong><font color="#ff502c">call/apply</font></strong> 做的是这样的事，**<font color="#ff502c">A</font>** 对象上实现了一个方法， <strong><font color="#ff502c">B</font></strong> 对象由于一些需求，也需要调用同样的方法，最好的方法肯定是 <strong><font color="#ff502c">B</font></strong> 直接去调用 <strong><font color="#ff502c">A</font></strong> 对象的方法，自身无需扩展。</p>
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><strong>前言</strong></h2><p><strong><font color="#ff502c">call/apply</font></strong> 的核心理念就是借用方法。<br><strong><font color="#ff502c">call/apply</font></strong> 做的是这样的事，   <strong><font color="#ff502c">A</font></strong> 对象上实现了一个方法， <strong><font color="#ff502c">B</font></strong> 对象由于一些需求，也需要调用同样的方法，最好的方法肯定是 <strong><font color="#ff502c">B</font></strong> 直接去调用 <strong><font color="#ff502c">A</font></strong> 对象的方法，自身无需扩展。</p>
 <h2 id="基本介绍"><a href="#基本介绍" class="headerlink" title="基本介绍"></a><strong>基本介绍</strong></h2><h3 id="语法："><a href="#语法：" class="headerlink" title="语法："></a><strong>语法：</strong></h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fn.call(thisArg,arg1,arg2,...);</span><br><span class="line">fn.apply(thisArg,[arg1,arg2,...]);</span><br></pre></td></tr></table></figure>
 
 <h3 id="参数"><a href="#参数" class="headerlink" title="参数"></a><strong>参数</strong></h3><ul>
 <li><strong><font color="#ff502c">thisArg</font></strong>(可选)：<ul>
 <li><strong><font color="#ff502c">fn</font></strong> 函数的 <strong><font color="#ff502c">this</font></strong> 指向 <strong><font color="#ff502c">thisArg</font></strong></li>
-<li><strong><font color="#ff502c">thisArg</font></strong> 传入 <strong><font color="#ff502c">null, undefined</font></strong> ；非严格模式下：**<font color="#ff502c">fn</font>** 函数 <strong><font color="#ff502c">this -&gt; window</font></strong> ；严格模式下：**<font color="#ff502c">this -&gt; undefined</font>**</li>
-<li>值为原始值(数字，字符串，布尔值)时，**<font color="#ff502c">this</font>** 指向包装类</li>
+<li><strong><font color="#ff502c">thisArg</font></strong> 传入 <strong><font color="#ff502c">null, undefined</font></strong> ；非严格模式下： <strong><font color="#ff502c">fn</font></strong> 函数 <strong><font color="#ff502c">this -&gt; window</font></strong> ；严格模式下： <strong><font color="#ff502c">this -&gt; undefined</font></strong></li>
+<li>值为原始值(数字，字符串，布尔值)时， <strong><font color="#ff502c">this</font></strong> 指向包装类</li>
 </ul>
 </li>
 <li><strong><font color="#ff502c">arg1,arg2</font></strong> (可选)：传给 <strong><font color="#ff502c">fn</font></strong> 的参数<ul>
@@ -201,7 +201,7 @@
 </ul>
 <h3 id="作用"><a href="#作用" class="headerlink" title="作用"></a><strong>作用</strong></h3><p>改变 <strong><font color="#ff502c">this</font></strong> 指向</p>
 <h2 id="常见用法"><a href="#常见用法" class="headerlink" title="常见用法"></a><strong>常见用法</strong></h2><ol>
-<li>判断数据类型：**<font color="#ff502c">typeof</font>** 方法只返回七种值：**<font color="#ff502c">string、number、boolean、undefined、object、function、symbol</font>** 。所以使用 <strong><font color="#ff502c">typeof</font></strong> 是无法区分 <strong><font color="#ff502c">array</font></strong> 和普通对象的。</li>
+<li>判断数据类型： <strong><font color="#ff502c">typeof</font></strong> 方法只返回七种值： <strong><font color="#ff502c">string、number、boolean、undefined、object、function、symbol</font></strong> 。所以使用 <strong><font color="#ff502c">typeof</font></strong> 是无法区分 <strong><font color="#ff502c">array</font></strong> 和普通对象的。</li>
 </ol>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">arr = [];</span><br><span class="line"><span class="keyword">typeof</span> arr; <span class="comment">// &quot;object&quot;</span></span><br><span class="line">obj = &#123;&#125;;</span><br><span class="line"><span class="keyword">typeof</span> obj; <span class="comment">// &quot;object&quot;</span></span><br></pre></td></tr></table></figure>
 
@@ -275,7 +275,7 @@
                     <a class="tag-none-link" href="/tags/call%E3%80%81apply/" rel="tag">call、apply</a>
                 </div>
                 <div class="pull-date">
-                <span>最后编辑：2021-12-29</span>
+                <span>最后编辑：2022-01-18</span>
                 </div>
             </div>
         </footer>
@@ -287,6 +287,10 @@
                 <a title=" JavaScript 之手撕 new" href="/2021/12/25/JavaScript-之手撕-new/">&lt; 上一篇</a>
             </div>
             
+            
+            <div class="nav-next clearfix">
+                <a title=" JavaScript 静态作用域与动态作用域" href="/2022/01/18/JavaScript-静态作用域与动态作用域/">下一篇 &gt;</a>
+            </div>
             
         </nav>
     
@@ -327,7 +331,7 @@
   <aside id="krw-tags" class="widget widget-kratos-tags clearfix">
     <h4 class="widget-title"><i class="fa fa-tags"></i>标签聚合</h4>
       <div class="tag-clouds">
-        <a href="/tags/JavaScript/" style="font-size: 0.6em;">JavaScript</a> <a href="/tags/call%E3%80%81apply/" style="font-size: 0.6em;">call、apply</a> <a href="/tags/new/" style="font-size: 0.6em;">new</a> <a href="/tags/%E9%A2%84%E7%BC%96%E8%AF%91/" style="font-size: 0.6em;">预编译</a>
+        <a href="/tags/JavaScript/" style="font-size: 0.6em;">JavaScript</a> <a href="/tags/call%E3%80%81apply/" style="font-size: 0.6em;">call、apply</a> <a href="/tags/new/" style="font-size: 0.6em;">new</a> <a href="/tags/%E4%BD%9C%E7%94%A8%E5%9F%9F/" style="font-size: 0.6em;">作用域</a> <a href="/tags/%E9%A2%84%E7%BC%96%E8%AF%91/" style="font-size: 0.6em;">预编译</a>
       </div>
   </aside>
 
@@ -338,6 +342,12 @@
   <div class="tab-content">
       <ul class="list-group">
         
+        
+          
+          
+            <a class="list-group-item" href="/2022/01/18/JavaScript-%E9%9D%99%E6%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8E%E5%8A%A8%E6%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F/"><i class="fa  fa-book"></i> JavaScript 静态作用域与动态作用域</a>
+            
+          
         
           
           
@@ -386,7 +396,7 @@
                     </ul>
                     <ul class="kratos-copyright">
                         <div>
-                            <li>&copy; 2021 西瓜和栗子的 Blog 版权所有.</li>
+                            <li>&copy; 2022 西瓜和栗子的 Blog 版权所有.</li>
                             <li><span id="span_dt">Loading...</span></li>
                         </div>
                         <div>
