@@ -4,7 +4,7 @@
   <!-- 元数据 -->
   <meta charset="utf-8">
   <link rel="icon" href="">
-  <title>西瓜和栗子的 Blog</title>
+  <title>Vue 简介 | 西瓜和栗子的 Blog</title>
   <meta name="author" content="西瓜" />
   <meta http-equiv="Cache-Control" content="no-transform" />
   <meta http-equiv="Cache-Control" content="no-siteapp" />
@@ -13,17 +13,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <meta name="format-detection" content="telphone=no, email=no" />
   
-    <meta name="keywords" content="" />
+    <meta name="keywords" content="Vue" />
   
-  <meta name="description" content="西瓜🍉">
-<meta property="og:type" content="website">
-<meta property="og:title" content="西瓜和栗子的 Blog">
-<meta property="og:url" content="http://example.com/archives/2021/12/index.html">
+  <meta name="description" content="Vue 是一套用于构建用户界面的 渐进式框架。与其他大型框架不同的是，Vue 被设计为可以自底向上逐层应用。Vue 的核心库只关注视图层，不仅易于上手，还便于第三方库或即有项目整合。另一方面，当与 现代化的工具链 以及 支持类库  结合使用时，Vue 也完全能够为复杂的单页应用提供驱动。 1.Vue 属于单页面应用(SPA)2.单页面应用和多页面应用的优缺点 单页面应用 (single page">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vue 简介">
+<meta property="og:url" content="http://example.com/2022/01/20/Vue-%E7%AE%80%E4%BB%8B/index.html">
 <meta property="og:site_name" content="西瓜和栗子的 Blog">
-<meta property="og:description" content="西瓜🍉">
+<meta property="og:description" content="Vue 是一套用于构建用户界面的 渐进式框架。与其他大型框架不同的是，Vue 被设计为可以自底向上逐层应用。Vue 的核心库只关注视图层，不仅易于上手，还便于第三方库或即有项目整合。另一方面，当与 现代化的工具链 以及 支持类库  结合使用时，Vue 也完全能够为复杂的单页应用提供驱动。 1.Vue 属于单页面应用(SPA)2.单页面应用和多页面应用的优缺点 单页面应用 (single page">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://example.com/null">
+<meta property="article:published_time" content="2022-01-20T02:30:16.000Z">
+<meta property="article:modified_time" content="2022-01-20T03:08:04.491Z">
 <meta property="article:author" content="西瓜">
+<meta property="article:tag" content="Vue">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/null">
 <meta name="twitter:site" content="@null">
@@ -154,127 +157,77 @@
 
         
 
+            <article>
+    <div class="kratos-hentry kratos-post-inner clearfix">
+        <header class="kratos-entry-header">
             
-<style>
-  .post-meta time{color:#00a7e0}
-  @media (max-width:767px){.posts-collapse{margin:0 20px}
-  .posts-collapse .post-meta,.posts-collapse .post-title{display:block;width:auto;text-align:left}}
-  .posts-collapse{position:relative}
-  .posts-collapse::after{content:" ";position:absolute;top:20px;left:0;margin-left:-2px;width:4px;height:calc(100% - 35px);background:#f5f5f5;z-index:-1}
-  @media (max-width:991px){.posts-collapse{margin:0 20px}}
-  .posts-collapse .collection-title{position:relative}
-  .posts-collapse .collection-title h1,.posts-collapse .collection-title h2{margin-left:20px}.posts-collapse .collection-title small{color:#bbb;margin-left:5px}
-  .posts-collapse .collection-title::before{content:" ";position:absolute;left:0;top:50%;margin-left:-4px;margin-top:-4px;width:8px;height:8px;background:#bbb;border-radius:50%}
-  .posts-collapse .post-header{position:relative;transition-duration:.2s;transition-timing-function:ease-in-out;transition-delay:0s;transition-property:border}
-  .posts-collapse .post-header::before{content:" ";position:absolute;left:0;top:12px;width:6px;height:6px;margin-left:-4px;background:#bbb;border-radius:50%;border:1px solid #fff}
-  .posts-collapse .post-header:hover{border-bottom-color:#666}.posts-collapse .post-header:hover::before{background:#222}
-  .posts-collapse .post-meta{position:absolute;font-size:12px;left:20px;top:5px}
-  .posts-collapse .post-comments-count{display:none}
-  .posts-collapse .post-title{margin-left:70px;font-size:16px;font-weight:400;line-height:inherit}
-  .posts-collapse .post-title::after{margin-left:3px;opacity:.6}.posts-collapse .post-title a{color:#666;border-bottom:none}
-  .kratos-post-content div.arc-tags{margin-bottom:30px}
-  .arc-tags a{-webkit-box-shadow:0 1px 4px rgba(0,0,0,.1);box-shadow:0 1px 4px rgba(0,0,0,.1);border:1px solid #fff;border-radius:15px;margin:4px 8px 0 0;font-weight:500;display:inline-block;padding:0 12px;background:rgba(255,255,255,.5);font-size:16px;}
-  .arc-tags a::before{content:"# ";color:#e8a6a6}
-</style>
+                <h1 class="kratos-entry-title text-center">Vue 简介</h1>
+            
+            
+            <ul class="kratos-post-meta text-center">
+                <li><i class="fa fa-calendar"></i> 2022-01-20</li>
+                <li><i class="fa fa-user"></i> 作者 西瓜</li>
+                <li>
+                    <i class="fa fa-edit"></i> 
+                    
+                    
+                        1134
+                    
+                    字
+                </li>
+                
+            </ul>
+        </header>
+        <div class="kratos-post-content">
+            <div id="expire-alert" class="alert alert-warning hidden" role="alert">
+                本文最后编辑于 <time datetime="1642648084491"></time> 前，其中的内容可能需要更新。
+            </div>
+            
+            <hr />
+            <p>Vue 是一套用于构建用户界面的 <strong>渐进式框架</strong>。与其他大型框架不同的是，Vue 被设计为可以自底向上逐层应用。<br>Vue 的核心库只关注视图层，不仅易于上手，还便于第三方库或即有项目整合。另一方面，当与 <strong><font color="#00DD77">现代化的工具链</font></strong> 以及 <strong><font color="#00DD77">支持类库</font></strong>  结合使用时，Vue 也完全能够为复杂的单页应用提供驱动。</p>
+<h3 id="1-Vue-属于单页面应用-SPA"><a href="#1-Vue-属于单页面应用-SPA" class="headerlink" title="1.Vue 属于单页面应用(SPA)"></a>1.Vue 属于单页面应用(SPA)</h3><h3 id="2-单页面应用和多页面应用的优缺点"><a href="#2-单页面应用和多页面应用的优缺点" class="headerlink" title="2.单页面应用和多页面应用的优缺点"></a>2.单页面应用和多页面应用的优缺点</h3><ul>
+<li><p>单页面应用 (single page web application, SPA)<br>只有一个主页面的应用，浏览器一开始要加载所有必须的 html、js、css。所有的页面内容都包含在这个所谓的主页面中，有 JavaScript 来控制。但写的时候还是会分开写(页面片段)，然后在交互的时候由路由程序动态载入，单页面的页面跳转，仅刷新局部资源。多应用与 PC 端。</p>
+<ul>
+<li><p><strong><font color="#ff502c">优点 ：</font></strong></p>
+<p>  ① 用户操作体验好，用户不用刷新页面，整个交互过程都是通过 Ajax 来操作。<br>  ② 适合前后端分离开发，服务端提供 http 接口，前端请求 http 接口获取数据，使用 JavaScript 进行客户端渲染。<br>  ③ 页面效果比较酷炫(比如切换页面时的专场动画)</p>
+</li>
+<li><p><strong><font color="#ff502c">缺点 ：</font></strong><br>  ① 首页加载慢，单页面应用会将 js、css 打包成一个文件，在加载页面显示的时候加载打包文件，如果打包文件较大或者网速慢则用户的体验感会受到影响。<br>  ② SEO 不太友好，SEO(Search Engine Optimization) 为搜索引擎优化。它是一种利用搜索引擎的搜索规则来提高网站在搜索引擎排名的方法。目前各家搜索引擎对 JavaScript 支持不好，所以使用单页面应用将大大减少搜索引擎对网站的收录。<br>  ③ 导航不可用，如果一定要导航需要自行实现前进、后退。(由于是单页面不能用浏览器的前进后退功能，所以需要自己建立堆栈管理)<br>  ④ 页面的复杂度提高很多</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-既然单页面应用有这些缺点，为什么还要使用-Vue"><a href="#3-既然单页面应用有这些缺点，为什么还要使用-Vue" class="headerlink" title="3.既然单页面应用有这些缺点，为什么还要使用 Vue"></a>3.既然单页面应用有这些缺点，为什么还要使用 Vue</h3><p>Vue 提供了一些其他技术来解决这些缺点，比如说服务器端渲染技术 (SSR)，通过这些技术可以完美解决这些缺点。解决完这些问题，实际上单页面应用对于前端来说是非常完美的页面开发解决方案。</p>
+<h3 id="4-前端模块化的好处"><a href="#4-前端模块化的好处" class="headerlink" title="4.前端模块化的好处"></a>4.前端模块化的好处</h3><p>① 降低复杂度<br>② 降低耦合性<br><strong><font color="#ff502c">什么是耦合性？</font></strong><br>在编程里面，是指一个程序模块与其他的联系。如果存在联系，就叫做耦合，我们知道总会有必要的耦合，因此解耦是指把这些联系减少到必要的联系即可。所谓的”高聚合、低耦合”就是指这个道理。<br>通过减少代码的耦合性最明确的好处就是有利于代码的维护，可以让分工更加明确，修改代码需要设计的模块也会减少。对于效率能有很大的提高。</p>
+<p><strong>耦合性过高的后果 ——- 牵一发而动全身</strong></p>
+<p>③ 部署方便</p>
 
-  <article>
-      <div class="kratos-hentry kratos-post-inner clearfix">
-          <div class="kratos-post-content">
-            <h2 class="title-h2 text-center">文章归档</h2>
-            <div id="archives">
-                
-                  <div class="arc-tags">
-                      <a class="tag-none-link" href="/tags/JavaScript/" rel="tag">JavaScript</a> <a class="tag-none-link" href="/tags/Vue/" rel="tag">Vue</a> <a class="tag-none-link" href="/tags/call%E3%80%81apply/" rel="tag">call、apply</a> <a class="tag-none-link" href="/tags/new/" rel="tag">new</a> <a class="tag-none-link" href="/tags/%E4%BD%9C%E7%94%A8%E5%9F%9F/" rel="tag">作用域</a> <a class="tag-none-link" href="/tags/%E9%A2%84%E7%BC%96%E8%AF%91/" rel="tag">预编译</a>
-                  </div>
-                
-                <div class="post-block archive post" style="margin-left: 2em;">
-                  <h3 class="archive-page-counter">当前共有 3 篇文章 (゜-゜)つロ 干杯~</h3>
-                  <div class="posts-collapse">
-                    
-                    
-                      
-                      
-                        <!-- 没遇到Title的会被自动忽略年份，即使并不一致 -->
-                        
-                        <div class="collection-title">
-                          <a href="/archives/2021/"><h2 class="archive-year">2021</h2></a>
-                        </div>
-                      
-                      
-                        <article class="post" itemscope>
-                          <header class="post-header">
-                            <h3 class="post-title">
-                              
-                                  <a class="post-title-link" href="/2021/12/29/JavaScript-%E4%B9%8B%E6%89%8B%E6%92%95call%E3%80%81apply/" itemprop="url">
-                                    <span itemprop="name">JavaScript 之手撕call、apply</span>
-                                  </a>
-                              
-                            </h3>
-                            <div class="post-meta">
-                              <time class="post-time" itemprop="dateCreated"
-                                    datetime="2021-12-29T14:04:47+08:00"
-                                    content="2021-12-29" >
-                                12-29
-                              </time>
-                            </div>
-                          </header>
-                        </article>
-                      
-                    
-                      
-                      
-                      
-                        <article class="post" itemscope>
-                          <header class="post-header">
-                            <h3 class="post-title">
-                              
-                                  <a class="post-title-link" href="/2021/12/25/JavaScript-%E4%B9%8B%E6%89%8B%E6%92%95-new/" itemprop="url">
-                                    <span itemprop="name">JavaScript 之手撕 new</span>
-                                  </a>
-                              
-                            </h3>
-                            <div class="post-meta">
-                              <time class="post-time" itemprop="dateCreated"
-                                    datetime="2021-12-25T15:00:37+08:00"
-                                    content="2021-12-25" >
-                                12-25
-                              </time>
-                            </div>
-                          </header>
-                        </article>
-                      
-                    
-                      
-                      
-                      
-                        <article class="post" itemscope>
-                          <header class="post-header">
-                            <h3 class="post-title">
-                              
-                                  <a class="post-title-link" href="/2021/12/20/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/" itemprop="url">
-                                    <span itemprop="name">JavaScript 预编译</span>
-                                  </a>
-                              
-                            </h3>
-                            <div class="post-meta">
-                              <time class="post-time" itemprop="dateCreated"
-                                    datetime="2021-12-20T14:09:53+08:00"
-                                    content="2021-12-20" >
-                                12-20
-                              </time>
-                            </div>
-                          </header>
-                        </article>
-                      
-                    
-                  </div>
+        </div>
+        
+        <footer class="kratos-entry-footer clearfix">
+            
+            <div class="footer-tag clearfix">
+                <div class="pull-left">
+                <i class="fa fa-tags"></i>
+                    <a class="tag-none-link" href="/tags/Vue/" rel="tag">Vue</a>
+                </div>
+                <div class="pull-date">
+                <span>最后编辑：2022-01-20</span>
                 </div>
             </div>
-        </div>
-      </div>
-      
-  </article>
-
+        </footer>
+    </div>
+    
+        <nav class="navigation post-navigation clearfix" role="navigation">
+            
+            <div class="nav-previous clearfix">
+                <a title=" JavaScript 使用小技巧" href="/2022/01/19/JavaScript-使用小技巧/">&lt; 上一篇</a>
+            </div>
+            
+            
+        </nav>
+    
+    
+</article>
 
         
 
@@ -287,8 +240,6 @@
 
 <section id="kratos-widget-area" class="col-md-4 hidden-xs hidden-sm">
     <!-- 文章和页面根据splitter来分割，没有的话就从头开始设置为sticky -->
-    
-        <div class="sticky-area">
     
     
                 <aside id="krw-about" class="widget widget-kratos-about clearfix">
@@ -303,6 +254,8 @@
     </div>
 </aside>
             
+                    <div class="sticky-area">
+                
                 
 
             
