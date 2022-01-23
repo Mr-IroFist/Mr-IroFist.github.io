@@ -4,7 +4,7 @@
   <!-- 元数据 -->
   <meta charset="utf-8">
   <link rel="icon" href="">
-  <title>Prop 组件复用 | 西瓜和栗子的 Blog</title>
+  <title>slot 插槽 | 西瓜和栗子的 Blog</title>
   <meta name="author" content="西瓜" />
   <meta http-equiv="Cache-Control" content="no-transform" />
   <meta http-equiv="Cache-Control" content="no-siteapp" />
@@ -13,20 +13,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <meta name="format-detection" content="telphone=no, email=no" />
   
-    <meta name="keywords" content="prop" />
+    <meta name="keywords" content="插槽" />
   
-  <meta name="description" content="用来实现组件复用，就是子组件在父组件中出现的时候，需要展示的内容，可以让父组件提供。 Prop 的大小写HTML 中的 attribute 名是大小写不敏感的，所以浏览器会把所有大写字符解释为小写字符。这意味着当你使用 DOM 中的模板时，camelClase(驼峰命名法) 的 prop 名需要使用其等价的 kebba-case (短横线分隔命名) 来命名。 1.实现 Prop① 在组件内传递相应">
+  <meta name="description" content="用户解决在一个组件里面需要多次使用同一个组件但是内容不一样的问题。 1. 普通插槽12345678910111213&lt;!-- 父组件 --&gt;&lt;template&gt;    &lt;!-- 子组件是一个比较大的组件，内部有很多样式，只有内部的内容展示不一样 --&gt;    &lt;!-- 并不是文字不一样，而是标签不一样，有时候可能是 p 标签，或者 h 标签，还或者是 a">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Prop 组件复用">
-<meta property="og:url" content="http://example.com/2022/01/21/Prop-%E7%BB%84%E4%BB%B6%E5%A4%8D%E7%94%A8/index.html">
+<meta property="og:title" content="slot 插槽">
+<meta property="og:url" content="http://example.com/2022/01/23/slot-%E6%8F%92%E6%A7%BD/index.html">
 <meta property="og:site_name" content="西瓜和栗子的 Blog">
-<meta property="og:description" content="用来实现组件复用，就是子组件在父组件中出现的时候，需要展示的内容，可以让父组件提供。 Prop 的大小写HTML 中的 attribute 名是大小写不敏感的，所以浏览器会把所有大写字符解释为小写字符。这意味着当你使用 DOM 中的模板时，camelClase(驼峰命名法) 的 prop 名需要使用其等价的 kebba-case (短横线分隔命名) 来命名。 1.实现 Prop① 在组件内传递相应">
+<meta property="og:description" content="用户解决在一个组件里面需要多次使用同一个组件但是内容不一样的问题。 1. 普通插槽12345678910111213&lt;!-- 父组件 --&gt;&lt;template&gt;    &lt;!-- 子组件是一个比较大的组件，内部有很多样式，只有内部的内容展示不一样 --&gt;    &lt;!-- 并不是文字不一样，而是标签不一样，有时候可能是 p 标签，或者 h 标签，还或者是 a">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://example.com/null">
-<meta property="article:published_time" content="2022-01-21T05:43:09.000Z">
-<meta property="article:modified_time" content="2022-01-21T06:24:19.953Z">
+<meta property="article:published_time" content="2022-01-23T03:44:04.000Z">
+<meta property="article:modified_time" content="2022-01-23T04:20:50.190Z">
 <meta property="article:author" content="西瓜">
-<meta property="article:tag" content="prop">
+<meta property="article:tag" content="插槽">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/null">
 <meta name="twitter:site" content="@null">
@@ -161,17 +161,17 @@
     <div class="kratos-hentry kratos-post-inner clearfix">
         <header class="kratos-entry-header">
             
-                <h1 class="kratos-entry-title text-center">Prop 组件复用</h1>
+                <h1 class="kratos-entry-title text-center">slot 插槽</h1>
             
             
             <ul class="kratos-post-meta text-center">
-                <li><i class="fa fa-calendar"></i> 2022-01-21</li>
+                <li><i class="fa fa-calendar"></i> 2022-01-23</li>
                 <li><i class="fa fa-user"></i> 作者 西瓜</li>
                 <li>
                     <i class="fa fa-edit"></i> 
                     
                     
-                        ~2.66K
+                        ~2.94K
                     
                     字
                 </li>
@@ -180,23 +180,35 @@
         </header>
         <div class="kratos-post-content">
             <div id="expire-alert" class="alert alert-warning hidden" role="alert">
-                本文最后编辑于 <time datetime="1642746259953"></time> 前，其中的内容可能需要更新。
+                本文最后编辑于 <time datetime="1642911650190"></time> 前，其中的内容可能需要更新。
             </div>
             
             <hr />
-            <p>用来实现组件复用，就是子组件在父组件中出现的时候，需要展示的内容，可以让父组件提供。</p>
-<p><strong><font color="#ff502c">Prop 的大小写</font></strong><br>HTML 中的 attribute 名是大小写不敏感的，所以浏览器会把所有大写字符解释为小写字符。这意味着当你使用 DOM 中的模板时，camelClase(驼峰命名法) 的 prop 名需要使用其等价的 kebba-case (短横线分隔命名) 来命名。</p>
-<h4 id="1-实现-Prop"><a href="#1-实现-Prop" class="headerlink" title="1.实现 Prop"></a>1.实现 Prop</h4><p>① 在组件内传递相应的数据给子组件，直接在子组件的标签上当作属性传递数据，属性名可以自定义，属性值是传递的真正数据。<br>② 子组件获取父组件传递的数据展示，需要在子组件的 script 内导出对象内使用 props 属性接收。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 父组件中 --&gt;</span><br><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;div class = &quot;top&quot;&gt;</span><br><span class="line">        &lt;Box imgTitle = &quot;pic1&quot; imgSrc = &quot;地址...&quot; /&gt;</span><br><span class="line">        &lt;Box imgTitle = &quot;pic1&quot; imgSrc = &quot;地址...&quot; /&gt;</span><br><span class="line">        &lt;Box imgTitle = &quot;pic1&quot; imgSrc = &quot;地址...&quot; /&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br></pre></td></tr></table></figure>
+            <p>用户解决在一个组件里面需要多次使用同一个组件但是内容不一样的问题。</p>
+<h4 id="1-普通插槽"><a href="#1-普通插槽" class="headerlink" title="1. 普通插槽"></a>1. 普通插槽</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 父组件 --&gt;</span><br><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;!-- 子组件是一个比较大的组件，内部有很多样式，只有内部的内容展示不一样 --&gt;</span><br><span class="line">    &lt;!-- 并不是文字不一样，而是标签不一样，有时候可能是 p 标签，或者 h 标签，还或者是 a 标签 --&gt;</span><br><span class="line">    &lt;!-- 将需要展示的不同 html 解构写在组件的开始标签和结束标签之间 --&gt;</span><br><span class="line">    &lt;LineRight&gt;</span><br><span class="line">        &lt;p&gt;展示的内容&lt;/p&gt;</span><br><span class="line">    &lt;/LineRight&gt;</span><br><span class="line">    &lt;LineRigt&gt;</span><br><span class="line">        &lt;h2&gt;展示的内容&lt;/h2&gt;</span><br><span class="line">        &lt;!-- 上面这种传递 prop 的方式称为 slot 插槽 --&gt;</span><br><span class="line">    &lt;/LineRight&gt;</span><br><span class="line">&lt;/template&gt;</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 子组件中 --&gt;</span><br><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;!-- src 属性经过指令包裹之后引号内可以直接写 js --&gt;</span><br><span class="line">    &lt;!-- v-bind: 可以简写成 : --&gt;</span><br><span class="line">    &lt;img :src = &quot;imgSrc&quot; alt = &quot;&quot; /&gt;</span><br><span class="line">    &lt;p&gt;&#123;&#123; imgTitle &#125;&#125;&lt;/p&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">    export default &#123;</span><br><span class="line">    // 这样就可以接收父组件传递的相应的数据，这个数据可以认为是该组件内的全局变量随意使用。</span><br><span class="line">    porps:[&#x27;imgTitle&#x27;, &#x27;imgSrc&#x27;]</span><br><span class="line">    // porp 数据的使用</span><br><span class="line">    // 1. 在 template 中可以直接使用，但是需要遵循 vue 的模板语法</span><br><span class="line">    // 2. 在 script 中需要使用 this.xxx</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 子组件(LineRight.vue) --&gt;</span><br><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;div class = &quot;line&quot;&gt;</span><br><span class="line">        &lt;!-- 父组件传递的 slot prop 直接使用 slot 标签接收 --&gt;</span><br><span class="line">        &lt;slot /&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br></pre></td></tr></table></figure>
 
-<p>③ Prop 的验证(类型检查)<br>我们可以为组件的 prop 指定验证要求，例如你知道这些类型。如果有一个需求没有被满足，则 vue 会在浏览器控制台中警告你。这在开发一个会被别人用到的组件时尤其有帮助。</p>
-<p>为了定制 prop 的验证方式，你可以为 props 中的值提供一个带有验证需求的对象，而不是一个字符串数组。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">    export default &#123;</span><br><span class="line">        props : &#123;</span><br><span class="line">            // 基础类型检查(`null` 和 `undefined` 会通过任何类型验证)</span><br><span class="line">            propA : Number,</span><br><span class="line">            // 多个可能的类型</span><br><span class="line">            propB : [String, Number],</span><br><span class="line">            // 必填的字符串</span><br><span class="line">            propC : &#123;</span><br><span class="line">                type : String,</span><br><span class="line">                required : true</span><br><span class="line">            &#125;,</span><br><span class="line">            // 带有默认值的数字</span><br><span class="line">            propD : &#123;</span><br><span class="line">                type : Number,</span><br><span class="line">                default : 100</span><br><span class="line">            &#125;,</span><br><span class="line">            // 带有默认值的对象</span><br><span class="line">            propE : &#123;</span><br><span class="line">                type : Object,</span><br><span class="line">                // 对象或者数组默认值必须从一个工厂函数获取</span><br><span class="line">                default : function() &#123;</span><br><span class="line">                    return &#123; message : &#x27;hello&#x27; &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;,</span><br><span class="line">            // 自带验证函数</span><br><span class="line">            propF : &#123;</span><br><span class="line">                validator : function(value) &#123;</span><br><span class="line">                    // 这个值必须匹配下列字符串中的一个</span><br><span class="line">                    return [&#x27;success&#x27;, &#x27;warning&#x27;, &#x27;danger&#x27;].indexOf(value) ! == -1  </span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="2-具名插槽"><a href="#2-具名插槽" class="headerlink" title="2. 具名插槽"></a>2. 具名插槽</h4><p>有时候我们需要多个插槽</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;div class = &quot;container&quot;&gt;</span><br><span class="line">        &lt;header&gt;</span><br><span class="line">            &lt;!-- 我们希望把页头放在这里 --&gt;</span><br><span class="line">        &lt;/header&gt;</span><br><span class="line">        &lt;main&gt;</span><br><span class="line">            &lt;!-- 我们希望把主要内容放在这里 --&gt;</span><br><span class="line">        &lt;/main&gt;</span><br><span class="line">        &lt;footer&gt;</span><br><span class="line">            &lt;!-- 我们希望把页脚放在这里 --&gt;</span><br><span class="line">        &lt;/foooter&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br></pre></td></tr></table></figure>
 
-<h4 id="2-单项数据流"><a href="#2-单项数据流" class="headerlink" title="2. 单项数据流"></a>2. 单项数据流</h4><p>所有的 prop 都使得其父子 prop 之间形成了一个单向下行绑定：父级 prop 的更新会向下流动到子组件中，但是反过来则不行。这样会防止从子组件意外变更父级组件的状态，从而导致你的应用的数据流向难理解，</p>
-<p>额外的，每次父组件发生变更时，子组件中所有的 prop 都将会刷新为最新的值。这意味着你不应该在一个子组件内部改变 prop。如果你这样做了，Vue 会在浏览器的控制台中发出警告。</p>
+<p>对于这样的情况， <strong><font color="#ff502c">&lt; slot &gt;</font></strong> 元素有一个特殊的 attribute： name。这个 attribute 可以用来定义额外的插槽：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 子组件 --&gt;</span><br><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;div class = &quot;container&quot;&gt;</span><br><span class="line">        &lt;header&gt;</span><br><span class="line">            &lt;slot name = &quot;header&quot;&gt;&lt;/slot&gt;</span><br><span class="line">        &lt;/header&gt;</span><br><span class="line">        &lt;main&gt;</span><br><span class="line">            &lt;slot&gt;&lt;/slot&gt;</span><br><span class="line">        &lt;/main&gt;</span><br><span class="line">        &lt;footer&gt;</span><br><span class="line">            &lt;slot name = &quot;footer&quot;&gt;&lt;/slot&gt;</span><br><span class="line">        &lt;/footer&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br></pre></td></tr></table></figure>
+
+<p>一个不带 name 的 &lt; slot &gt; 出口会带有隐含的名字 ‘default’。<br>在向具名插槽提供内容的时候，我们可以在一个 &lt; template &gt; 元素上使用 v-slot 指令，并以 v-slot 的参数的形式提供其名称：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 父组件 --&gt;</span><br><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;base-layout&gt;</span><br><span class="line">        &lt;template v-slot:header&gt;</span><br><span class="line">            &lt;h1&gt;Here might be a page title&lt;/h1&gt;</span><br><span class="line">        &lt;/template&gt;</span><br><span class="line">        &lt;template v-slot:default&gt;</span><br><span class="line">            &lt;p&gt;A paragraph for the main content.&lt;/p&gt;</span><br><span class="line">            &lt;p&gt;And another one.&lt;/p&gt;</span><br><span class="line">        &lt;/template&gt;</span><br><span class="line">        &lt;template v-slot:footer&gt;</span><br><span class="line">            &lt;p&gt;Here&#x27;s some contact info&lt;/p&gt;</span><br><span class="line">        &lt;/template&gt;</span><br><span class="line">    &lt;/base-layout&gt;</span><br><span class="line">&lt;/template&gt;</span><br></pre></td></tr></table></figure>
+
+<p>现在 &lt; template &gt; 元素中的所有内容都将会被传入相应的插槽。任何没有被包裹在带有 v-slot 的 &lt; template &gt; 中的内容都会被视为默认插槽的内容。</p>
+<p>注意 v-slot 只能添加在 &lt; template &gt; 上，这一点和已经废弃的 slot attribute 不同。</p>
+<p>v-slot: 可以简写成 #</p>
+<h4 id="3-插槽的后备内容"><a href="#3-插槽的后备内容" class="headerlink" title="3. 插槽的后备内容"></a>3. 插槽的后备内容</h4><p>有时候为一个插槽设置具体的后备(也就是默认)内容是很有用的，它只会在没有提供内容的时候被渲染。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;button type=<span class="string">&quot;submit&quot;</span>&gt;</span><br><span class="line">  <span class="xml"><span class="tag">&lt;<span class="name">slot</span>&gt;</span>Submit<span class="tag">&lt;/<span class="name">slot</span>&gt;</span></span></span><br><span class="line">&lt;/button&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-作用域插槽"><a href="#4-作用域插槽" class="headerlink" title="4. 作用域插槽"></a>4. 作用域插槽</h4><p>有时候让插槽内容能够访问子组件中才有的数据是很有用的。</p>
+<p>绑定在 &lt; slot &gt; 元素上的 attribute 被称为 <strong>插槽 prop</strong> 。现在在父级作用域中，我们可以使用带值的 v-slot 来定义我们提供的插槽 prop 的名字。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;current-user&gt;</span><br><span class="line">    <span class="xml"><span class="tag">&lt;<span class="name">template</span> <span class="attr">v-slot:default</span>=<span class="string">&quot;slotProps&quot;</span>&gt;</span></span></span><br><span class="line"><span class="xml">        &#123;&#123; slotProps.user.firstName &#125;&#125;</span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">template</span>&gt;</span></span></span><br><span class="line">&lt;/current-user&gt;</span><br></pre></td></tr></table></figure>
+
+<p>在这个例子中，我们选择将包含所有插槽 prop 的对象命名 slotProps，但你也可以使用任意你喜欢的名字</p>
 
         </div>
         
@@ -205,10 +217,10 @@
             <div class="footer-tag clearfix">
                 <div class="pull-left">
                 <i class="fa fa-tags"></i>
-                    <a class="tag-none-link" href="/tags/prop/" rel="tag">prop</a>
+                    <a class="tag-none-link" href="/tags/%E6%8F%92%E6%A7%BD/" rel="tag">插槽</a>
                 </div>
                 <div class="pull-date">
-                <span>最后编辑：2022-01-21</span>
+                <span>最后编辑：2022-01-23</span>
                 </div>
             </div>
         </footer>
@@ -217,13 +229,9 @@
         <nav class="navigation post-navigation clearfix" role="navigation">
             
             <div class="nav-previous clearfix">
-                <a title=" Vue 简介" href="/2022/01/20/Vue-简介/">&lt; 上一篇</a>
+                <a title=" Prop 组件复用" href="/2022/01/21/Prop-组件复用/">&lt; 上一篇</a>
             </div>
             
-            
-            <div class="nav-next clearfix">
-                <a title=" slot 插槽" href="/2022/01/23/slot-插槽/">下一篇 &gt;</a>
-            </div>
             
         </nav>
     
