@@ -4,7 +4,7 @@
   <!-- 元数据 -->
   <meta charset="utf-8">
   <link rel="icon" href="">
-  <title>西瓜和栗子的 Blog</title>
+  <title>class 和 style 的绑定 | 西瓜和栗子的 Blog</title>
   <meta name="author" content="西瓜" />
   <meta http-equiv="Cache-Control" content="no-transform" />
   <meta http-equiv="Cache-Control" content="no-siteapp" />
@@ -15,14 +15,16 @@
   
     <meta name="keywords" content="" />
   
-  <meta name="description" content="西瓜🍉">
-<meta property="og:type" content="website">
-<meta property="og:title" content="西瓜和栗子的 Blog">
-<meta property="og:url" content="http://example.com/tags/%E6%8F%92%E6%A7%BD/index.html">
+  <meta name="description" content="1. class 的绑定123456789101112131415161718192021222324252627&lt;template&gt;    &lt;header&gt;        &lt;button @click &#x3D; &quot;changeShow&quot;&gt;切换出现和消失&lt;&#x2F;button&gt;        &lt;button v-on:click &#x3D; &amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="class 和 style 的绑定">
+<meta property="og:url" content="http://example.com/2022/01/25/class-%E5%92%8C-style-%E7%9A%84%E7%BB%91%E5%AE%9A/index.html">
 <meta property="og:site_name" content="西瓜和栗子的 Blog">
-<meta property="og:description" content="西瓜🍉">
+<meta property="og:description" content="1. class 的绑定123456789101112131415161718192021222324252627&lt;template&gt;    &lt;header&gt;        &lt;button @click &#x3D; &quot;changeShow&quot;&gt;切换出现和消失&lt;&#x2F;button&gt;        &lt;button v-on:click &#x3D; &amp;">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://example.com/null">
+<meta property="article:published_time" content="2022-01-25T05:43:22.000Z">
+<meta property="article:modified_time" content="2022-01-25T06:36:31.681Z">
 <meta property="article:author" content="西瓜">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/null">
@@ -154,72 +156,90 @@
 
         
 
+            <article>
+    <div class="kratos-hentry kratos-post-inner clearfix">
+        <header class="kratos-entry-header">
             
-    
-    
-        <article class="kratos-hentry clearfix">
-            <div class="kratos-entry-border-new clearfix">
+                <h1 class="kratos-entry-title text-center">class 和 style 的绑定</h1>
+            
+            
+            <ul class="kratos-post-meta text-center">
+                <li><i class="fa fa-calendar"></i> 2022-01-25</li>
+                <li><i class="fa fa-user"></i> 作者 西瓜</li>
+                <li>
+                    <i class="fa fa-edit"></i> 
+                    
+                    
+                        ~1.73K
+                    
+                    字
+                </li>
                 
-                <div class="kratos-entry-thumb-new">
-                    <a href="/2022/01/23/slot-%E6%8F%92%E6%A7%BD/">
-                        
-                            <img class="kratos-entry-thumb-new-img">
-                        
-                    </a>
-                </div>
-                <div class="kratos-post-inner-new">
-                    <header class="kratos-entry-header-new">
-                            
-                        <h2 class="kratos-entry-title-new"><a href="/2022/01/23/slot-%E6%8F%92%E6%A7%BD/">slot 插槽</a>
-                    </header>
-                    <div class="kratos-entry-content-new">
-                        <p>
-                            
-                                用户解决在一个组件里面需要多次使用同一个组件但是内容不一样的问题。
-1. 普通插槽12345678910111213&lt;!-- 父组件 --&gt;&lt;template&gt;    &lt;!-- 子组件是一个比较大的组件，...
-                            
-                        </p>
-                    </div>
-                </div>
-                <footer class="kratos-post-meta-new">
-                    <span class="pull-left">
-                        <a>
-                            <i class="fa fa-calendar"></i>
-                            2022-01-23
-                        </a>
-                        <a>
-                            
-                                <i class="fa fa-tags"></i>
-                                <a class="tag-none-link" href="/tags/%E6%8F%92%E6%A7%BD/" rel="tag">插槽</a>
-                            
-                        </a>
-                        
-                            <!-- 当前仅支持valine/waline自带的统计功能 -->
-                            
-                        
-                        
-                            <!-- 当前仅支持waline自带的统计功能 -->
-                            
-                        
-                    </span>
-                    <span class="pull-right">
-                        <a class="read-more" href="/2022/01/23/slot-%E6%8F%92%E6%A7%BD/" title="阅读全文">阅读全文<i class="fa fa-chevron-circle-right"></i></a>
-                    </span>
-                </footer>
+            </ul>
+        </header>
+        <div class="kratos-post-content">
+            <div id="expire-alert" class="alert alert-warning hidden" role="alert">
+                本文最后编辑于 <time datetime="1643092591681"></time> 前，其中的内容可能需要更新。
             </div>
-        </article>
-    
+            
+            <hr />
+            <h4 id="1-class-的绑定"><a href="#1-class-的绑定" class="headerlink" title="1. class 的绑定"></a>1. class 的绑定</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;header&gt;</span><br><span class="line">        &lt;button @click = &quot;changeShow&quot;&gt;切换出现和消失&lt;/button&gt;</span><br><span class="line">        &lt;button v-on:click = &quot;active = !active&quot;&gt;切换背景色&lt;/button&gt;</span><br><span class="line">        &lt;box&gt;&lt;/box&gt;</span><br><span class="line">    &lt;/header&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">    export default &#123;</span><br><span class="line">        name : &quot;Header&quot;,</span><br><span class="line">        data() &#123;</span><br><span class="line">            return &#123;</span><br><span class="line">                show : true</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        methods : &#123;</span><br><span class="line">            changeShow() &#123;</span><br><span class="line">                this.show =  !this.show</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; </span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;style&gt;</span><br><span class="line">    .box.hide &#123;</span><br><span class="line">        display : none;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
 
+<p>实现 box 的出现和消失，进行样式的控制，将 show 这个 <strong><font color="#ff502c">data</font></strong> 和 box 的 class 样式挂钩</p>
+<p>① 直接使用 js 语法实现，比如三木运算</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div :<span class="class"><span class="keyword">class</span> </span>= <span class="string">&quot;show ? &#x27;box&#x27; : &#x27;box hide&#x27;&quot;</span>&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure>
 
+<p>② 对象语法</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div :<span class="class"><span class="keyword">class</span> </span>= <span class="string">&quot;&#123; box : true, hide: !show &#125;&quot;</span>&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure>
 
+<p>③ 数组语法，数组语法可以嵌套对象语法</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div :<span class="class"><span class="keyword">class</span> </span>= <span class="string">&quot;[&#x27;box&#x27;, show ? &#x27;&#x27; : &#x27;hide&#x27;]&quot;</span>&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure>
 
+<p>④ 数组语法嵌套对象语法</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div :<span class="class"><span class="keyword">class</span> </span>= <span class="string">&quot;[&#x27;box&#x27;, &#123;hide : !show&#125;]&quot;</span>&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure>
 
-    <div class="hidden">
-        <!-- 加载文章阅读对应的统计功能，评论自带的那种 -->
+<h4 id="2-style-的绑定"><a href="#2-style-的绑定" class="headerlink" title="2. style 的绑定"></a>2. style 的绑定</h4><p>实现 box 颜色的切换<br>① 普通的 js 语法实现</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div :style = <span class="string">&quot;`background-color : $&#123;active ? &#x27;red&#x27; : &#x27;blue&#x27; &#125;`&quot;</span>&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<p>② 对象语法</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div <span class="class"><span class="keyword">class</span> </span>= <span class="string">&quot;box&quot;</span> :style = <span class="string">&quot;&#123; backgroundColor : active ? &#x27;red&#x27; : &#x27;blue&#x27;&#125;&quot;</span>&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<p>③ 数组语法</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div <span class="class"><span class="keyword">class</span> </span>= <span class="string">&quot;box&quot;</span> :style = <span class="string">&quot;[&#123; backgroundColor : active ? &#x27;red&#x27; : &#x27;blue&#x27; &#125;]&quot;</span>&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-指令"><a href="#3-指令" class="headerlink" title="3. 指令"></a>3. 指令</h4><p>v-show 实现，只是可以实现出现或者消失：添加或删除</p>
+
+        </div>
         
+        <footer class="kratos-entry-footer clearfix">
+            
+            <div class="footer-tag clearfix">
+                <div class="pull-left">
+                <i class="fa fa-tags"></i>
+                    
+                </div>
+                <div class="pull-date">
+                <span>最后编辑：2022-01-25</span>
+                </div>
+            </div>
+        </footer>
     </div>
-
-
+    
+        <nav class="navigation post-navigation clearfix" role="navigation">
+            
+            <div class="nav-previous clearfix">
+                <a title=" slot 插槽" href="/2022/01/23/slot-插槽/">&lt; 上一篇</a>
+            </div>
+            
+            
+            <div class="nav-next clearfix">
+                <a title=" 组件的生命周期钩子" href="/2022/01/25/组件的生命周期钩子/">下一篇 &gt;</a>
+            </div>
+            
+        </nav>
+    
+    
+</article>
 
         
 
@@ -232,8 +252,6 @@
 
 <section id="kratos-widget-area" class="col-md-4 hidden-xs hidden-sm">
     <!-- 文章和页面根据splitter来分割，没有的话就从头开始设置为sticky -->
-    
-        <div class="sticky-area">
     
     
                 <aside id="krw-about" class="widget widget-kratos-about clearfix">
@@ -248,6 +266,8 @@
     </div>
 </aside>
             
+                    <div class="sticky-area">
+                
                 
 
             
